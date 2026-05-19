@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel de Negocio - FidelizaSucre</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/panel.css">
+</head>
+<body class="panel-body">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <a href="/" class="nav-logo">
+        <span class="logo-icon">F</span>
+        <span class="logo-text">Fideliza<strong>Sucre</strong></span>
+      </a>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="#" class="sidebar-link active" onclick="mostrarSeccion('resumen', this)">
+        <span class="sidebar-icon">inicio</span>
+        Resumen
+      </a>
+      <a href="#" class="sidebar-link" onclick="mostrarSeccion('clientes', this)">
+        <span class="sidebar-icon">clientes</span>
+        Mis Clientes
+      </a>
+      <a href="#" class="sidebar-link" onclick="mostrarSeccion('recompensas', this)">
+        <span class="sidebar-icon">premio</span>
+        Recompensas
+      </a>
+      <a href="#" class="sidebar-link" onclick="mostrarSeccion('puntos', this)">
+        <span class="sidebar-icon">sumar</span>
+        Sumar Puntos
+      </a>
+      <a href="#" class="sidebar-link" onclick="mostrarSeccion('qr', this)">
+        <span class="sidebar-icon">qr</span>
+        Mi Codigo QR
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="btn-cerrar-sesion" onclick="cerrarSesion()">Cerrar sesion</button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="panel-main">
+    <header class="panel-header">
+      <h1 class="panel-title" id="panelTitulo">Resumen</h1>
+      <div class="panel-header-right">
+        <span class="plan-badge-small" id="planBadge">Plan Gratuito</span>
+        <span class="negocio-nombre" id="negocioNombre">Mi Negocio</span>
+      </div>
+    </header>
+
+    <!-- SECCION RESUMEN -->
+    <section class="panel-section active" id="seccion-resumen">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-card-label">Clientes registrados</div>
+          <div class="stat-card-value" id="totalClientes">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-label">Recompensas activas</div>
+          <div class="stat-card-value" id="totalRecompensas">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-label">Tu plan</div>
+          <div class="stat-card-value" id="planNombre">Gratuito</div>
+        </div>
+      </div>
+
+      <div class="panel-card">
+        <h3>Clientes mas frecuentes</h3>
+        <div id="listaClientesFrecuentes">
+          <div class="loading-text">Cargando clientes...</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCION CLIENTES -->
+    <section class="panel-section" id="seccion-clientes">
+      <div class="panel-card">
+        <h3>Todos mis clientes</h3>
+        <div id="tablaClientes">
+          <div class="loading-text">Cargando clientes...</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCION RECOMPENSAS -->
+    <section class="panel-section" id="seccion-recompensas">
+      <div class="panel-card">
+        <div class="card-header-row">
+          <h3>Mis recompensas</h3>
+          <button class="btn-small" onclick="mostrarFormRecompensa()">Nueva recompensa</button>
+        </div>
+
+        <div id="formNuevaRecompensa" class="form-recompensa" style="display:none;">
+          <h4>Crear nueva recompensa</h4>
+          <div class="form-group">
+            <label>Nombre de la recompensa</label>
+            <input type="text" id="recompensaNombre" placeholder="Ej: Cafe gratis">
+          </div>
+          <div class="form-group">
+            <label>Descripcion (opcional)</label>
+            <input type="text" id="recompensaDesc" placeholder="Ej: Un cafe americano de cualquier tamano">
+          </div>
+          <div class="form-group">
+            <label>Puntos requeridos para canjear</label>
+            <input type="number" id="recompensaPuntos" placeholder="Ej: 100" min="1">
+          </div>
+          <div class="form-actions">
+            <button class="btn-primary" onclick="crearRecompensa()">Guardar recompensa</button>
+            <button class="btn-secondary" onclick="ocultarFormRecompensa()">Cancelar</button>
+          </div>
+        </div>
+
+        <div id="listaRecompensas">
+          <div class="loading-text">Cargando recompensas...</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCION SUMAR PUNTOS -->
+    <section class="panel-section" id="seccion-puntos">
+      <div class="panel-card">
+        <h3>Sumar puntos a un cliente</h3>
+        <p class="card-desc">Ingresa el codigo del cliente para agregar puntos despues de una compra.</p>
+
+        <div class="form-group">
+          <label>Codigo del cliente</label>
+          <input type="text" id="codigoCliente" placeholder="Ej: CLI847291" style="text-transform:uppercase;">
+        </div>
+        <div class="form-group">
+          <label>Puntos a agregar</label>
+          <input type="number" id="puntosASumar" placeholder="Ej: 50" min="1">
+        </div>
+        <div class="form-group">
+          <label>Descripcion (opcional)</label>
+          <input type="text" id="descripcionPuntos" placeholder="Ej: Compra de cafe americano">
+        </div>
+
+        <button class="btn-primary" onclick="sumarPuntos()">Agregar puntos</button>
+
+        <div id="resultadoPuntos" class="resultado-puntos" style="display:none;"></div>
+      </div>
+    </section>
+
+    <!-- SECCION QR -->
+    <section class="panel-section" id="seccion-qr">
+      <div class="panel-card qr-card">
+        <h3>Tu codigo QR</h3>
+        <p class="card-desc">Imprime este codigo y coloca en tu mostrador. Los clientes lo escanean para acumular puntos.</p>
+        <div id="qrContainer">
+          <button class="btn-primary" onclick="generarQR()">Generar mi QR</button>
+        </div>
+        <div id="instruccionesQR" style="display:none;">
+          <p>Haz clic derecho en el QR y selecciona "Guardar imagen" para descargarlo e imprimirlo.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="/js/panel.js"></script>
+</body>
+</html>

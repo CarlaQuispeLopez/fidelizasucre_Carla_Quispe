@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ingresar - FidelizaSucre</title>
+  <meta name="description" content="Ingresa a tu cuenta de FidelizaSucre para ver tus puntos y recompensas.">
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/auth.css">
+</head>
+<body class="auth-body">
+
+  <div class="auth-container">
+    <div class="auth-brand">
+      <a href="/" class="nav-logo">
+        <span class="logo-icon">F</span>
+        <span class="logo-text">Fideliza<strong>Sucre</strong></span>
+      </a>
+      <div class="auth-brand-bg"></div>
+    </div>
+
+    <div class="auth-form-container">
+      <div class="auth-form-box">
+        <h1>Bienvenido de vuelta</h1>
+        <p class="auth-subtitle">Ingresa a tu cuenta para ver tus puntos y recompensas</p>
+
+        <div class="tipo-tabs">
+          <button class="tipo-tab active" onclick="cambiarTipo('cliente', this)">Soy Cliente</button>
+          <button class="tipo-tab" onclick="cambiarTipo('negocio', this)">Soy Negocio</button>
+        </div>
+
+        <div id="mensajeError" class="auth-message auth-message--error" style="display:none;"></div>
+        <div id="mensajeExito" class="auth-message auth-message--success" style="display:none;"></div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            placeholder="tucorreo@email.com"
+            autocomplete="email"
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="password">
+            Contrasena
+            <a href="#" class="label-link">Olvide mi contrasena</a>
+          </label>
+          <div class="input-password">
+            <input
+              type="password"
+              id="password"
+              placeholder="Tu contrasena"
+              autocomplete="current-password"
+            >
+            <button type="button" class="toggle-password" onclick="togglePassword('password', this)">ver</button>
+          </div>
+        </div>
+
+        <button class="btn-auth" onclick="iniciarSesion()" id="btnLogin">
+          Ingresar
+        </button>
+
+        <p class="auth-footer-text">
+          No tienes cuenta?
+          <a href="/registro.html">Registrate gratis</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/auth.js"></script>
+</body>
+</html>

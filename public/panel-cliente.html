@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Panel - FidelizaSucre</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/panel.css">
+</head>
+<body class="panel-body">
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <a href="/" class="nav-logo">
+        <span class="logo-icon">F</span>
+        <span class="logo-text">Fideliza<strong>Sucre</strong></span>
+      </a>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="#" class="sidebar-link active" onclick="mostrarSeccionCliente('miperfil', this)">
+        <span class="sidebar-icon">perfil</span>
+        Mi Perfil
+      </a>
+      <a href="#" class="sidebar-link" onclick="mostrarSeccionCliente('misrecompensas', this)">
+        <span class="sidebar-icon">premio</span>
+        Canjear
+      </a>
+      <a href="#" class="sidebar-link" onclick="mostrarSeccionCliente('historial', this)">
+        <span class="sidebar-icon">historial</span>
+        Historial
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="btn-cerrar-sesion" onclick="cerrarSesion()">Cerrar sesion</button>
+    </div>
+  </aside>
+
+  <main class="panel-main">
+    <header class="panel-header">
+      <h1 class="panel-title" id="panelTitulo">Mi Perfil</h1>
+      <div class="panel-header-right">
+        <span class="negocio-nombre" id="clienteNombre">Cargando...</span>
+      </div>
+    </header>
+
+    <!-- PERFIL -->
+    <section class="panel-section active" id="seccion-miperfil">
+      <div class="tarjeta-puntos">
+        <div class="tarjeta-label">Total de puntos</div>
+        <div class="tarjeta-puntos-valor" id="misPuntos">0</div>
+        <div class="tarjeta-nombre" id="miNombre">Mi Nombre</div>
+        <div class="tarjeta-codigo" id="miCodigo">CLI-000000</div>
+      </div>
+      <div class="panel-card">
+        <h3>Como acumular puntos</h3>
+        <div class="instrucciones-cliente">
+          <div class="instruccion-paso">
+            <div class="instruccion-num">1</div>
+            <p>Ve a cualquier negocio participante en Sucre</p>
+          </div>
+          <div class="instruccion-paso">
+            <div class="instruccion-num">2</div>
+            <p>Da tu codigo de cliente al cajero o deja escanear tu pantalla</p>
+          </div>
+          <div class="instruccion-paso">
+            <div class="instruccion-num">3</div>
+            <p>Los puntos se agregan automaticamente a tu cuenta</p>
+          </div>
+        </div>
+        <div class="tu-codigo-grande">
+          Tu codigo: <strong id="codigoGrande">CLI-000000</strong>
+        </div>
+      </div>
+    </section>
+
+    <!-- CANJEAR -->
+    <section class="panel-section" id="seccion-misrecompensas">
+      <div class="panel-card">
+        <h3>Recompensas disponibles</h3>
+        <p class="card-desc">Canjea tus puntos por estos premios en los negocios participantes</p>
+        <div id="listaRecompensasCliente">
+          <div class="loading-text">Cargando recompensas...</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HISTORIAL -->
+    <section class="panel-section" id="seccion-historial">
+      <div class="panel-card">
+        <h3>Historial de puntos</h3>
+        <div id="historialMovimientos">
+          <div class="loading-text">Cargando historial...</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="/js/panel.js"></script>
+</body>
+</html>

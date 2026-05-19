@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registrarse - FidelizaSucre</title>
+  <meta name="description" content="Crea tu cuenta gratuita en FidelizaSucre y empieza a acumular puntos en tus negocios favoritos de Sucre.">
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/auth.css">
+</head>
+<body class="auth-body">
+
+  <div class="auth-container">
+    <div class="auth-brand">
+      <a href="/" class="nav-logo">
+        <span class="logo-icon">F</span>
+        <span class="logo-text">Fideliza<strong>Sucre</strong></span>
+      </a>
+      <div class="auth-brand-bg"></div>
+    </div>
+
+    <div class="auth-form-container">
+      <div class="auth-form-box">
+        <h1>Crear cuenta gratis</h1>
+        <p class="auth-subtitle">Unete a FidelizaSucre y empieza a ganar recompensas</p>
+
+        <div class="tipo-tabs">
+          <button class="tipo-tab active" id="tabCliente" onclick="cambiarTipo('cliente', this)">Soy Cliente</button>
+          <button class="tipo-tab" id="tabNegocio" onclick="cambiarTipo('negocio', this)">Tengo un Negocio</button>
+        </div>
+
+        <div id="mensajeError" class="auth-message auth-message--error" style="display:none;"></div>
+        <div id="mensajeExito" class="auth-message auth-message--success" style="display:none;"></div>
+
+        <!-- CAMPOS COMUNES -->
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="tucorreo@email.com" autocomplete="email">
+        </div>
+
+        <!-- CAMPOS SOLO CLIENTE -->
+        <div id="campos-cliente">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="nombre">Nombre</label>
+              <input type="text" id="nombre" placeholder="Tu nombre" autocomplete="given-name">
+            </div>
+            <div class="form-group">
+              <label for="apellido">Apellido</label>
+              <input type="text" id="apellido" placeholder="Tu apellido" autocomplete="family-name">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="telefono">Telefono (opcional)</label>
+            <input type="tel" id="telefono" placeholder="Ej: 72000000">
+          </div>
+        </div>
+
+        <!-- CAMPOS SOLO NEGOCIO -->
+        <div id="campos-negocio" style="display:none;">
+          <div class="form-group">
+            <label for="nombre_negocio">Nombre del negocio</label>
+            <input type="text" id="nombre_negocio" placeholder="Ej: Cafe Colonial Sucre">
+          </div>
+          <div class="form-group">
+            <label for="tipo_negocio">Tipo de negocio</label>
+            <select id="tipo_negocio">
+              <option value="">Selecciona el tipo</option>
+              <option value="Cafeteria">Cafeteria</option>
+              <option value="Restaurante">Restaurante</option>
+              <option value="Farmacia">Farmacia</option>
+              <option value="Tienda de ropa">Tienda de ropa</option>
+              <option value="Panaderia">Panaderia</option>
+              <option value="Libreria">Libreria</option>
+              <option value="Peluqueria">Peluqueria</option>
+              <option value="Ferreteria">Ferreteria</option>
+              <option value="Supermercado">Supermercado</option>
+              <option value="Otro">Otro</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="telefono_neg">Telefono del negocio</label>
+            <input type="tel" id="telefono_neg" placeholder="Ej: 64000000">
+          </div>
+          <div class="form-group">
+            <label for="direccion">Direccion</label>
+            <input type="text" id="direccion" placeholder="Ej: Calle Bolivar 123, Sucre">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Contrasena</label>
+          <div class="input-password">
+            <input type="password" id="password" placeholder="Minimo 8 caracteres" autocomplete="new-password">
+            <button type="button" class="toggle-password" onclick="togglePassword('password', this)">ver</button>
+          </div>
+          <div class="password-strength" id="passwordStrength"></div>
+        </div>
+
+        <label class="form-checkbox">
+          <input type="checkbox" id="aceptaTerminos">
+          <span>Acepto los <a href="/terminos.html" target="_blank">terminos de uso</a> y la <a href="/privacidad.html" target="_blank">politica de privacidad</a></span>
+        </label>
+
+        <button class="btn-auth" onclick="registrarse()" id="btnRegistro">
+          Crear cuenta gratis
+        </button>
+
+        <p class="auth-footer-text">
+          Ya tienes cuenta?
+          <a href="/login.html">Ingresa aqui</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/auth.js"></script>
+</body>
+</html>
