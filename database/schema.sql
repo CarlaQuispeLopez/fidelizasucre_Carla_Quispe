@@ -1,83 +1,63 @@
--- Schema de base de datos para FidelizaSucre
--- Ejecutar este archivo para crear todas las tablas
+-- ClientesFieles - Schema MySQL (XAMPP)
 
--- Tabla de clientes (usuarios que acumulan puntos)
 CREATE TABLE IF NOT EXISTS clientes (
-  id SERIAL PRIMARY KEY,
-  nombre VARCHAR(100) NOT NULL,
-  apellido VARCHAR(100) NOT NULL,
-  email VARCHAR(150) UNIQUE NOT NULL,
-  telefono VARCHAR(20),
-  password_hash VARCHAR(255) NOT NULL,
-  codigo_cliente VARCHAR(20) UNIQUE,
-  puntos_totales INTEGER DEFAULT 0,
-  fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  activo BOOLEAN DEFAULT TRUE
+  id              INT AUTO_INCREMENT PRIMARY KEY,
+  nombre          VARCHAR(100) NOT NULL,
+  apellido        VARCHAR(100) NOT NULL,
+  email           VARCHAR(150) NOT NULL UNIQUE,
+  telefono        VARCHAR(20),
+  password_hash   VARCHAR(255) NOT NULL,
+  codigo_cliente  VARCHAR(20) UNIQUE,
+  puntos_totales  INT DEFAULT 0,
+  fecha_registro  DATETIME DEFAULT CURRENT_TIMESTAMP,
+  activo          TINYINT(1) DEFAULT 1
 );
 
--- Tabla de negocios
 CREATE TABLE IF NOT EXISTS negocios (
-  id SERIAL PRIMARY KEY,
-  nombre_negocio VARCHAR(150) NOT NULL,
-  tipo_negocio VARCHAR(100),
-  email VARCHAR(150) UNIQUE NOT NULL,
-  telefono VARCHAR(20),
-  direccion TEXT,
-  password_hash VARCHAR(255) NOT NULL,
-  descripcion TEXT,
-  plan VARCHAR(20) DEFAULT 'gratuito',
-  fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  activo BOOLEAN DEFAULT TRUE
+  id              INT AUTO_INCREMENT PRIMARY KEY,
+  nombre_negocio  VARCHAR(150) NOT NULL,
+  tipo_negocio    VARCHAR(100),
+  email           VARCHAR(150) NOT NULL UNIQUE,
+  telefono        VARCHAR(20),
+  direccion       TEXT,
+  password_hash   VARCHAR(255) NOT NULL,
+  descripcion     TEXT,
+  plan            VARCHAR(20) DEFAULT 'gratuito',
+  fecha_registro  DATETIME DEFAULT CURRENT_TIMESTAMP,
+  activo          TINYINT(1) DEFAULT 1
 );
 
--- Tabla de recompensas que ofrece cada negocio
 CREATE TABLE IF NOT EXISTS recompensas (
-  id SERIAL PRIMARY KEY,
-  negocio_id INTEGER REFERENCES negocios(id) ON DELETE CASCADE,
-  nombre VARCHAR(200) NOT NULL,
-  descripcion TEXT,
-  puntos_requeridos INTEGER NOT NULL,
-  activa BOOLEAN DEFAULT TRUE,
-  fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  id                INT AUTO_INCREMENT PRIMARY KEY,
+  negocio_id        INT NOT NULL,
+  nombre            VARCHAR(200) NOT NULL,
+  descripcion       TEXT,
+  puntos_requeridos INT NOT NULL,
+  activa            TINYINT(1) DEFAULT 1,
+  fecha_creacion    DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (negocio_id) REFERENCES negocios(id) ON DELETE CASCADE
 );
 
--- Tabla de transacciones (cuando se suman o restan puntos)
 CREATE TABLE IF NOT EXISTS transacciones (
-  id SERIAL PRIMARY KEY,
-  cliente_id INTEGER REFERENCES clientes(id),
-  negocio_id INTEGER REFERENCES negocios(id),
-  tipo VARCHAR(20) NOT NULL CHECK (tipo IN ('suma', 'canje')),
-  puntos INTEGER NOT NULL,
+  id          INT AUTO_INCREMENT PRIMARY KEY,
+  cliente_id  INT,
+  negocio_id  INT,
+  tipo        ENUM('suma','canje') NOT NULL,
+  puntos      INT NOT NULL,
   descripcion TEXT,
-  fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  fecha       DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (cliente_id) REFERENCES clientes(id),
+  FOREIGN KEY (negocio_id) REFERENCES negocios(id)
 );
 
--- Tabla de relacion cliente-negocio (puntos por negocio)
 CREATE TABLE IF NOT EXISTS cliente_negocio_puntos (
-  id SERIAL PRIMARY KEY,
-  cliente_id INTEGER REFERENCES clientes(id),
-  negocio_id INTEGER REFERENCES negocios(id),
-  puntos INTEGER DEFAULT 0,
-  visitas INTEGER DEFAULT 0,
-  ultima_visita TIMESTAMP,
-  UNIQUE(cliente_id, negocio_id)
+  id            INT AUTO_INCREMENT PRIMARY KEY,
+  cliente_id    INT NOT NULL,
+  negocio_id    INT NOT NULL,
+  puntos        INT DEFAULT 0,
+  visitas       INT DEFAULT 0,
+  ultima_visita DATETIME,
+  UNIQUE KEY uq_cliente_negocio (cliente_id, negocio_id),
+  FOREIGN KEY (cliente_id) REFERENCES clientes(id),
+  FOREIGN KEY (negocio_id) REFERENCES negocios(id)
 );
-
--- Indices para mejorar el rendimiento
-CREATE INDEX IF NOT EXISTS idx_clientes_email ON clientes(email);
-CREATE INDEX IF NOT EXISTS idx_negocios_email ON negocios(email);
-CREATE INDEX IF NOT EXISTS idx_transacciones_cliente ON transacciones(cliente_id);
-CREATE INDEX IF NOT EXISTS idx_transacciones_negocio ON transacciones(negocio_id);
-
--- Datos de ejemplo para desarrollo
-INSERT INTO negocios (nombre_negocio, tipo_negocio, email, telefono, direccion, password_hash, descripcion, plan)
-VALUES (
-  'Cafe Colonial Sucre',
-  'Cafeteria',
-  'cafe@ejemplo.com',
-  '62000001',
-  'Plaza 25 de Mayo, Sucre',
-  '$2b$10$ejemplo_hash_aqui',
-  'El mejor cafe del centro historico de Sucre',
-  'premium'
-) ON CONFLICT (email) DO NOTHING;
