@@ -1,976 +1,548 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ClientesFieles – Recompensas y Puntos en Sucre</title>
-  <meta name="description" content="La plataforma de fidelización digital de Sucre. Acumula puntos, canjea recompensas y accede a ofertas exclusivas en tus negocios favoritos." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ClientesFieles — Fidelización Digital en Sucre</title>
+  <meta name="description" content="Acumula puntos y canjea recompensas en tus negocios favoritos de Sucre. Plataforma digital de fidelización."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/main.css"/>
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --purple: #6B21C8;
-      --purple-dark: #4E1399;
-      --purple-light: #8B44E0;
-      --purple-bg: #F3EBFF;
-      --green: #00A96E;
-      --orange: #FF6B35;
-      --red: #E53E3E;
-      --gray-50: #F9FAFB;
-      --gray-100: #F3F4F6;
-      --gray-200: #E5E7EB;
-      --gray-400: #9CA3AF;
-      --gray-600: #4B5563;
-      --gray-800: #1F2937;
-      --white: #FFFFFF;
-      --font-body: 'Sora', sans-serif;
-      --font-ui: 'Nunito', sans-serif;
-    }
-
-    body {
-      font-family: var(--font-body);
-      background: var(--gray-50);
-      color: var(--gray-800);
-      font-size: 14px;
-      line-height: 1.5;
-    }
+    html, body { overflow: hidden; height: 100%; }
 
     /* ===== NAVBAR ===== */
     .navbar {
       background: var(--purple);
-      padding: 0 24px;
+      height: 56px;
+      padding: 0 32px;
       display: flex;
       align-items: center;
-      gap: 20px;
-      height: 56px;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+      gap: 24px;
+      position: relative;
+      z-index: 10;
     }
-
-    .logo {
+    .nav-logo {
       font-family: var(--font-ui);
       font-weight: 900;
-      font-size: 22px;
-      color: var(--white);
+      font-size: 20px;
+      color: white;
       text-decoration: none;
-      white-space: nowrap;
       letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
-    .logo span { font-weight: 400; opacity: 0.9; }
+    .nav-logo svg { opacity: 0.9; }
+    .nav-logo span { font-weight: 500; opacity: 0.85; }
 
     .nav-links {
       display: flex;
-      align-items: center;
-      gap: 4px;
+      gap: 2px;
       list-style: none;
       flex: 1;
     }
     .nav-links a {
-      color: rgba(255,255,255,0.9);
+      color: rgba(255,255,255,0.85);
       text-decoration: none;
       font-family: var(--font-ui);
       font-weight: 700;
-      font-size: 13.5px;
-      padding: 6px 10px;
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      transition: background 0.15s;
-      white-space: nowrap;
-    }
-    .nav-links a:hover, .nav-links a.active { background: rgba(255,255,255,0.18); }
-    .nav-links .badge-gratis {
-      background: var(--green);
-      color: white;
-      font-size: 10px;
-      padding: 1px 5px;
-      border-radius: 4px;
-      font-weight: 800;
-    }
-
-    .nav-search {
-      flex: 1;
-      max-width: 380px;
-      position: relative;
-    }
-    .nav-search input {
-      width: 100%;
-      padding: 8px 14px 8px 38px;
-      border-radius: 8px;
-      border: none;
-      font-family: var(--font-body);
-      font-size: 13.5px;
-      outline: none;
-      background: rgba(255,255,255,0.15);
-      color: white;
-    }
-    .nav-search input::placeholder { color: rgba(255,255,255,0.6); }
-    .nav-search input:focus { background: rgba(255,255,255,0.25); }
-    .nav-search svg {
-      position: absolute;
-      left: 10px;
-      top: 50%;
-      transform: translateY(-50%);
-      opacity: 0.7;
-    }
-
-    .nav-actions { display: flex; align-items: center; gap: 8px; }
-    .btn-compartir {
-      background: transparent;
-      border: 2px solid rgba(255,255,255,0.6);
-      color: white;
-      font-family: var(--font-ui);
-      font-weight: 700;
       font-size: 13px;
-      padding: 6px 14px;
-      border-radius: 8px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      transition: all 0.15s;
-      white-space: nowrap;
-    }
-    .btn-compartir:hover { background: rgba(255,255,255,0.15); border-color: white; }
-
-    .btn-avatar {
-      width: 36px; height: 36px;
-      background: rgba(255,255,255,0.2);
-      border: 2px solid rgba(255,255,255,0.5);
-      border-radius: 50%;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      padding: 6px 12px;
+      border-radius: 6px;
       transition: background 0.15s;
     }
-    .btn-avatar:hover { background: rgba(255,255,255,0.3); }
+    .nav-links a:hover { background: rgba(255,255,255,0.15); color: white; }
+
+    .nav-actions { display: flex; gap: 8px; align-items: center; }
 
     /* ===== SUBNAV ===== */
     .subnav {
       background: white;
-      border-bottom: 2px solid var(--gray-200);
-      padding: 0 24px;
+      border-bottom: 1px solid var(--gray-200);
+      height: 40px;
+      padding: 0 32px;
       display: flex;
       align-items: center;
-      gap: 2px;
+      gap: 4px;
       overflow-x: auto;
-      scrollbar-width: none;
     }
     .subnav::-webkit-scrollbar { display: none; }
-    .subnav a {
+    .subnav-item {
       color: var(--gray-600);
       text-decoration: none;
       font-family: var(--font-ui);
       font-weight: 700;
-      font-size: 12.5px;
-      padding: 10px 12px;
-      border-bottom: 3px solid transparent;
-      white-space: nowrap;
-      transition: all 0.15s;
-    }
-    .subnav a:hover { color: var(--purple); border-color: var(--purple-light); }
-    .subnav a.active { color: var(--purple); border-bottom-color: var(--purple); }
-
-    /* ===== INFO BANNER ===== */
-    .info-banner {
-      background: #EEF2FF;
-      border-bottom: 1px solid #C7D2FE;
-      padding: 8px 24px;
+      font-size: 12px;
+      padding: 0 12px;
+      height: 40px;
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-size: 12.5px;
-      color: var(--gray-600);
+      gap: 5px;
+      border-bottom: 2px solid transparent;
+      transition: all 0.15s;
+      white-space: nowrap;
     }
-    .info-banner a { color: var(--purple); font-weight: 600; }
+    .subnav-item:hover, .subnav-item.active {
+      color: var(--purple);
+      border-bottom-color: var(--purple);
+    }
+    .subnav-item svg { color: inherit; }
 
-    /* ===== LAYOUT ===== */
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 24px;
+    /* ===== MAIN GRID ===== */
+    .page-body {
+      height: calc(100vh - 96px);
       display: grid;
-      grid-template-columns: 1fr 300px;
-      gap: 24px;
+      grid-template-columns: 1fr 340px;
+      gap: 0;
+      overflow: hidden;
     }
-    .main-content { min-width: 0; }
-    .sidebar { min-width: 0; }
 
-    /* ===== SECTION TITLE ===== */
-    .section-title {
+    /* ===== LEFT HERO ===== */
+    .hero {
+      background: linear-gradient(145deg, var(--purple-dark) 0%, var(--purple) 50%, var(--purple-mid) 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 48px 56px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      width: 400px; height: 400px;
+      background: rgba(255,255,255,0.04);
+      border-radius: 50%;
+      top: -100px; right: -100px;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      width: 300px; height: 300px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 50%;
+      bottom: -80px; left: -60px;
+    }
+    .hero-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.25);
+      color: rgba(255,255,255,0.9);
+      font-family: var(--font-ui);
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+      width: fit-content;
+    }
+    .hero-title {
       font-family: var(--font-ui);
       font-weight: 900;
-      font-size: 20px;
-      color: var(--gray-800);
-      margin-bottom: 16px;
-      letter-spacing: -0.3px;
+      font-size: 42px;
+      color: white;
+      line-height: 1.1;
+      letter-spacing: -1px;
+      margin-bottom: 18px;
     }
-
-    /* ===== CARDS GRID ===== */
-    .cards-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 14px;
+    .hero-title span {
+      color: #C4A8FF;
+    }
+    .hero-desc {
+      font-size: 16px;
+      color: rgba(255,255,255,0.8);
+      line-height: 1.6;
+      max-width: 420px;
       margin-bottom: 32px;
     }
-    .card {
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn-white {
       background: white;
-      border-radius: 12px;
-      border: 1px solid var(--gray-200);
-      overflow: hidden;
-      transition: box-shadow 0.2s, transform 0.2s;
+      color: var(--purple);
+      font-family: var(--font-ui);
+      font-weight: 800;
+      font-size: 14px;
+      padding: 11px 24px;
+      border-radius: var(--radius);
+      border: none;
       cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      text-decoration: none;
+      transition: all 0.15s;
+    }
+    .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
+    .btn-white-outline {
+      background: transparent;
+      color: white;
+      border: 2px solid rgba(255,255,255,0.5);
+      font-family: var(--font-ui);
+      font-weight: 700;
+      font-size: 14px;
+      padding: 9px 22px;
+      border-radius: var(--radius);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      text-decoration: none;
+      transition: all 0.15s;
+    }
+    .btn-white-outline:hover { border-color: white; background: rgba(255,255,255,0.1); }
+
+    .hero-stats {
+      display: flex;
+      gap: 28px;
+      margin-top: 40px;
+      padding-top: 28px;
+      border-top: 1px solid rgba(255,255,255,0.15);
+      position: relative;
+      z-index: 1;
+    }
+    .hero-stat-value {
+      font-family: var(--font-ui);
+      font-weight: 900;
+      font-size: 26px;
+      color: white;
+      line-height: 1;
+    }
+    .hero-stat-label { font-size: 12px; color: rgba(255,255,255,0.65); margin-top: 3px; }
+
+    /* ===== RIGHT PANEL ===== */
+    .side-panel {
+      background: var(--white);
+      border-left: 1px solid var(--gray-200);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* How it works */
+    .how-header {
+      padding: 18px 20px 12px;
+      border-bottom: 1px solid var(--gray-100);
+    }
+    .how-title {
+      font-family: var(--font-ui);
+      font-weight: 900;
+      font-size: 15px;
+      color: var(--gray-800);
+    }
+    .how-subtitle { font-size: 12px; color: var(--gray-500); margin-top: 2px; }
+
+    .how-steps {
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      border-bottom: 1px solid var(--gray-100);
+    }
+    .how-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .step-num {
+      width: 28px; height: 28px;
+      background: var(--purple);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-ui);
+      font-weight: 900;
+      font-size: 12px;
+      flex-shrink: 0;
+    }
+    .step-text strong {
+      display: block;
+      font-family: var(--font-ui);
+      font-weight: 800;
+      font-size: 13px;
+      color: var(--gray-800);
+      margin-bottom: 2px;
+    }
+    .step-text span { font-size: 12px; color: var(--gray-500); }
+
+    /* Negocios preview */
+    .businesses-section {
+      padding: 16px 20px;
+      flex: 1;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
     }
-    .card:hover {
-      box-shadow: 0 8px 24px rgba(107,33,200,0.12);
-      transform: translateY(-2px);
-    }
-
-    .card-author {
-      padding: 10px 12px 6px;
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      font-size: 11.5px;
-      color: var(--gray-600);
-    }
-    .card-author-avatar {
-      width: 26px; height: 26px;
-      border-radius: 50%;
-      color: white;
-      font-family: var(--font-ui);
-      font-weight: 800;
-      font-size: 11px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-    .card-author-info strong { font-weight: 700; color: var(--gray-800); }
-    .card-author-info .time { font-size: 10.5px; color: var(--gray-400); }
-
-    .card-logo {
-      height: 110px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
-    .card-logo .logo-box {
-      width: 80px; height: 80px;
-      border-radius: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 32px;
-    }
-
-    .card-body { padding: 10px 12px; flex: 1; display: flex; flex-direction: column; }
-
-    .badge {
-      display: inline-block;
-      font-family: var(--font-ui);
-      font-weight: 800;
-      font-size: 9.5px;
-      letter-spacing: 0.5px;
-      padding: 2px 7px;
-      border-radius: 4px;
-      margin-bottom: 7px;
-      text-transform: uppercase;
-    }
-    .badge-puntos { background: #EDE9FE; color: #5B21B6; }
-    .badge-oferta { background: #D1FAE5; color: #065F46; }
-    .badge-gratis-tag { background: #FEE2E2; color: #991B1B; }
-    .badge-cupon { background: var(--purple-bg); color: var(--purple); }
-
-    .card-desc {
-      font-size: 13px;
-      color: var(--gray-800);
-      line-height: 1.4;
-      flex: 1;
-      margin-bottom: 8px;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-    .card-discount {
-      font-family: var(--font-ui);
-      font-weight: 900;
-      font-size: 17px;
-      color: var(--purple);
-      margin-bottom: 4px;
-    }
-    .card-discount.green { color: var(--green); }
-    .card-discount.orange { color: var(--orange); }
-
-    .card-footer {
-      padding: 8px 12px;
-      border-top: 1px solid var(--gray-100);
+    .businesses-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      margin-bottom: 12px;
     }
-    .card-brand { font-size: 11.5px; color: var(--gray-600); font-weight: 500; }
-    .card-brand span { font-weight: 700; color: var(--gray-800); }
-    .card-actions {
+    .businesses-title {
+      font-family: var(--font-ui);
+      font-weight: 800;
+      font-size: 13px;
+      color: var(--gray-800);
+    }
+    .businesses-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      overflow: hidden;
+    }
+    .biz-item {
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      padding: 10px 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+      transition: all 0.15s;
+      text-decoration: none;
+    }
+    .biz-item:hover { border-color: var(--purple-border); background: var(--purple-bg); }
+    .biz-icon {
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .biz-name { font-size: 10px; font-weight: 700; font-family: var(--font-ui); color: var(--gray-700); text-align: center; line-height: 1.2; }
+
+    /* CTA bottom */
+    .side-cta {
+      padding: 14px 20px;
+      border-top: 1px solid var(--gray-100);
+      background: var(--gray-50);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .side-cta-text {
+      font-size: 12px;
+      color: var(--gray-600);
+      text-align: center;
+    }
+    .side-cta-text strong { color: var(--purple); }
+
+    .info-strip {
+      background: #EEF2FF;
+      border-bottom: 1px solid #C7D2FE;
+      padding: 7px 32px;
+      font-size: 12px;
+      color: var(--gray-600);
       display: flex;
       align-items: center;
       gap: 6px;
-      font-size: 11px;
-      color: var(--gray-400);
     }
-    .vote-btn {
-      background: none; border: none; cursor: pointer;
-      color: var(--gray-400); font-size: 11px;
-      padding: 2px; border-radius: 4px;
-      transition: color 0.15s;
-    }
-    .vote-btn:hover { color: var(--purple); }
-    .vote-btn.fire:hover { color: var(--orange); }
-    .bookmark-btn {
-      background: none; border: none; cursor: pointer;
-      color: var(--gray-400); padding: 2px;
-      transition: color 0.15s; font-size: 13px;
-    }
-    .bookmark-btn:hover { color: var(--purple); }
-
-    /* ===== FEATURED SIDEBAR ===== */
-    .featured-card {
-      background: white;
-      border: 1px solid var(--gray-200);
-      border-radius: 12px;
-      overflow: hidden;
-      margin-bottom: 16px;
-    }
-    .featured-header {
-      background: var(--purple);
-      color: white;
-      font-family: var(--font-ui);
-      font-weight: 800;
-      font-size: 13px;
-      padding: 10px 14px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .featured-header a { color: rgba(255,255,255,0.8); font-size: 11.5px; font-weight: 600; text-decoration: none; }
-    .featured-header a:hover { color: white; }
-
-    .featured-item {
-      display: flex; align-items: center; gap: 10px;
-      padding: 10px 14px;
-      border-bottom: 1px solid var(--gray-100);
-      cursor: pointer;
-      transition: background 0.15s;
-    }
-    .featured-item:last-child { border-bottom: none; }
-    .featured-item:hover { background: var(--gray-50); }
-    .featured-item-logo {
-      width: 38px; height: 38px;
-      border-radius: 8px; flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 20px;
-    }
-    .featured-item-text { flex: 1; min-width: 0; }
-    .featured-item-name {
-      font-size: 12.5px; font-weight: 600; color: var(--gray-800);
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    }
-    .featured-item-sub { font-size: 11px; color: var(--gray-400); }
-    .btn-ver-cupon {
-      background: var(--purple); color: white; border: none;
-      border-radius: 6px; padding: 4px 10px;
-      font-family: var(--font-ui); font-weight: 700; font-size: 11px;
-      cursor: pointer; transition: background 0.15s; white-space: nowrap;
-    }
-    .btn-ver-cupon:hover { background: var(--purple-dark); }
-
-    /* ===== MEGA OFFER ===== */
-    .mega-offer {
-      background: white; border: 1px solid var(--gray-200);
-      border-radius: 12px; overflow: hidden; margin-bottom: 14px;
-    }
-    .mega-offer-inner {
-      padding: 14px 16px; display: flex; gap: 14px; align-items: flex-start;
-      border-bottom: 1px solid var(--gray-100);
-      cursor: pointer; transition: background 0.15s;
-    }
-    .mega-offer-inner:hover { background: var(--gray-50); }
-    .mega-offer-logo {
-      width: 64px; height: 64px; border-radius: 10px; flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center; font-size: 28px;
-    }
-    .mega-offer-info { flex: 1; }
-    .mega-offer-meta {
-      display: flex; align-items: center; gap: 6px;
-      font-size: 11px; color: var(--gray-400); margin-bottom: 5px;
-    }
-    .mega-offer-meta .verified { color: var(--green); font-weight: 600; }
-    .mega-offer-title {
-      font-size: 14.5px; font-weight: 600; color: var(--gray-800);
-      line-height: 1.35; margin-bottom: 8px;
-    }
-    .mega-offer-discount {
-      font-family: var(--font-ui); font-weight: 900;
-      font-size: 20px; color: var(--purple);
-    }
-    .mega-offer-actions {
-      padding: 8px 14px; display: flex;
-      justify-content: flex-end; gap: 6px;
-    }
-    .btn-qr {
-      background: var(--purple-bg); color: var(--purple); border: none;
-      border-radius: 6px; padding: 4px 12px;
-      font-family: var(--font-ui); font-weight: 700; font-size: 11px;
-      cursor: pointer; transition: background 0.15s;
-    }
-    .btn-qr:hover { background: #ddd6fe; }
-
-    /* ===== REWARDS BANNER ===== */
-    .rewards-banner {
-      background: linear-gradient(135deg, var(--purple) 0%, var(--purple-light) 100%);
-      border-radius: 12px; padding: 18px 20px; color: white;
-      margin-bottom: 20px; display: flex;
-      align-items: center; justify-content: space-between; gap: 12px;
-    }
-    .rewards-banner h3 {
-      font-family: var(--font-ui); font-weight: 900; font-size: 16px; margin-bottom: 4px;
-    }
-    .rewards-banner p { font-size: 12.5px; opacity: 0.85; }
-    .btn-registrar {
-      background: white; color: var(--purple); border: none;
-      border-radius: 8px; padding: 8px 16px;
-      font-family: var(--font-ui); font-weight: 800; font-size: 13px;
-      cursor: pointer; white-space: nowrap; transition: transform 0.15s;
-    }
-    .btn-registrar:hover { transform: scale(1.03); }
-
-    /* ===== NEGOCIOS GRID ===== */
-    .negocios-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
-    }
-    .negocio-item {
-      background: var(--gray-50); border: 1px solid var(--gray-200);
-      border-radius: 8px; padding: 10px 6px;
-      display: flex; flex-direction: column; align-items: center; gap: 5px;
-      cursor: pointer; transition: all 0.15s; text-decoration: none; color: var(--gray-800);
-    }
-    .negocio-item:hover { background: var(--purple-bg); border-color: var(--purple-light); }
-    .negocio-logo {
-      width: 40px; height: 40px; border-radius: 8px;
-      display: flex; align-items: center; justify-content: center; font-size: 20px;
-    }
-    .negocio-name { font-size: 10.5px; font-weight: 600; text-align: center; line-height: 1.2; }
-
-    /* ===== TABS ===== */
-    .tabs { display: flex; gap: 4px; margin-bottom: 16px; flex-wrap: wrap; }
-    .tab {
-      background: none; border: 2px solid var(--gray-200);
-      color: var(--gray-600); font-family: var(--font-ui); font-weight: 700;
-      font-size: 12.5px; padding: 6px 14px; border-radius: 8px;
-      cursor: pointer; transition: all 0.15s;
-    }
-    .tab.active, .tab:hover { border-color: var(--purple); color: var(--purple); background: var(--purple-bg); }
-
-    /* ===== WHATSAPP FLOAT ===== */
-    .whatsapp-float {
-      position: fixed; bottom: 24px; right: 24px;
-      background: #25D366; color: white; border-radius: 50px;
-      padding: 12px 18px; display: flex; align-items: center; gap: 8px;
-      font-family: var(--font-ui); font-weight: 700; font-size: 13px;
-      text-decoration: none;
-      box-shadow: 0 4px 20px rgba(37,211,102,0.4);
-      transition: transform 0.2s, box-shadow 0.2s; z-index: 99;
-    }
-    .whatsapp-float:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(37,211,102,0.5); }
-
-    /* ===== RESPONSIVE ===== */
-    @media (max-width: 900px) {
-      .container { grid-template-columns: 1fr; }
-      .nav-links { display: none; }
-    }
-    @media (max-width: 600px) {
-      .navbar { padding: 0 14px; gap: 10px; }
-      .container { padding: 14px; }
-      .cards-grid { grid-template-columns: repeat(2, 1fr); }
-      .btn-compartir span { display: none; }
-    }
+    .info-strip a { color: var(--purple); font-weight: 600; text-decoration: none; }
   </style>
 </head>
 <body>
 
-<!-- ===== NAVBAR ===== -->
+<!-- NAVBAR -->
 <header class="navbar">
-  <a href="/" class="logo">Clientes<span>Fieles</span></a>
-
-  <nav>
-    <ul class="nav-links">
-      <li><a href="#recompensas" class="active">⭐ Recompensas ▾</a></li>
-      <li><a href="#negocios">🏪 Negocios ▾</a></li>
-      <li><a href="#gratis"><span class="badge-gratis">GRATIS</span> Puntos</a></li>
-      <li><a href="#top">🔥 Top 25</a></li>
-      <li><a href="#mas">Más ▾</a></li>
-    </ul>
-  </nav>
-
-  <div class="nav-search">
-    <svg width="15" height="15" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24">
-      <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+  <a href="/" class="nav-logo">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
     </svg>
-    <input type="text" id="searchInput" placeholder="Buscar recompensas, negocios..." />
-  </div>
+    Clientes<span>Fieles</span>
+  </a>
+
+  <ul class="nav-links">
+    <li><a href="#" onclick="return false">Recompensas</a></li>
+    <li><a href="#" onclick="return false">Negocios</a></li>
+    <li><a href="#" onclick="return false">Puntos gratis</a></li>
+    <li><a href="#" onclick="return false">Destacados</a></li>
+  </ul>
 
   <div class="nav-actions">
-    <button class="btn-compartir" onclick="window.location.href='registro.html'">
-      + <span>Registro</span>
-    </button>
-    <button class="btn-avatar" onclick="window.location.href='login.html'">
-      <svg width="17" height="17" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24">
-        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-      </svg>
-    </button>
+    <a href="login.html" class="btn btn-outline" style="border-color:rgba(255,255,255,0.5);color:white;font-size:13px;padding:7px 16px;">
+      Iniciar sesión
+    </a>
+    <a href="registro.html" class="btn btn-white" style="font-size:13px;padding:7px 16px;">
+      Registrarse
+    </a>
   </div>
 </header>
 
-<!-- ===== SUBNAV ===== -->
-<nav class="subnav">
-  <a href="#" class="active">⭐ Destacados</a>
-  <a href="#">☕ Cafeterías</a>
-  <a href="#">🍕 Restaurantes</a>
-  <a href="#">💊 Farmacias</a>
-  <a href="#">🛒 Tiendas</a>
-  <a href="#">💇 Belleza</a>
-  <a href="#">📚 Librerías</a>
-  <a href="#">🏋️ Gimnasios</a>
-  <a href="#">🍦 Heladerías</a>
-  <a href="#">🏨 Hospedaje</a>
-  <a href="#">🎓 Educación</a>
-</nav>
-
-<!-- ===== INFO BANNER ===== -->
-<div class="info-banner">
-  <svg width="15" height="15" fill="none" stroke="#6366F1" stroke-width="2" viewBox="0 0 24 24">
-    <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
-  </svg>
-  ClientesFieles es la plataforma oficial de fidelización digital de Sucre. Acumula puntos reales en cada compra.
-  <a href="#">Más info.</a>
+<!-- INFO STRIP -->
+<div class="info-strip">
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#6366F1" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+  Plataforma oficial de fidelización digital de Sucre, Bolivia. Registro gratuito para clientes.
+  <a href="registro.html">Comenzar ahora</a>
 </div>
 
-<!-- ===== MAIN LAYOUT ===== -->
-<div class="container">
+<!-- SUBNAV -->
+<nav class="subnav">
+  <a href="#" class="subnav-item active" onclick="return false">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+    Destacados
+  </a>
+  <a href="#" class="subnav-item" onclick="return false">Cafeterias</a>
+  <a href="#" class="subnav-item" onclick="return false">Restaurantes</a>
+  <a href="#" class="subnav-item" onclick="return false">Farmacias</a>
+  <a href="#" class="subnav-item" onclick="return false">Tiendas</a>
+  <a href="#" class="subnav-item" onclick="return false">Belleza</a>
+  <a href="#" class="subnav-item" onclick="return false">Librerias</a>
+  <a href="#" class="subnav-item" onclick="return false">Gimnasios</a>
+  <a href="#" class="subnav-item" onclick="return false">Hosterias</a>
+</nav>
 
-  <main class="main-content">
+<!-- BODY -->
+<div class="page-body">
 
-    <!-- Banner registro -->
-    <div class="rewards-banner">
-      <div>
-        <h3>🎁 ¡Regístrate gratis y empieza a ganar puntos hoy!</h3>
-        <p>Más de 40 negocios en Sucre participan. Acumula, canjea, ahorra.</p>
+  <!-- HERO -->
+  <section class="hero">
+    <div style="position:relative;z-index:1;">
+      <div class="hero-label">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Sucre, Bolivia
       </div>
-      <button class="btn-registrar" onclick="window.location.href='registro.html'">Registrarme gratis</button>
+
+      <h1 class="hero-title">
+        Gana puntos en<br>
+        cada compra.<br>
+        <span>Canjea recompensas.</span>
+      </h1>
+
+      <p class="hero-desc">
+        Olvida las tarjetas de papel. ClientesFieles digitaliza los programas de fidelización de los negocios de Sucre. Escanea, acumula y disfruta.
+      </p>
+
+      <div class="hero-actions">
+        <a href="registro.html" class="btn-white">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+          Crear cuenta gratis
+        </a>
+        <a href="login.html" class="btn-white-outline">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+          Iniciar sesión
+        </a>
+      </div>
+
+      <div class="hero-stats">
+        <div>
+          <div class="hero-stat-value">40+</div>
+          <div class="hero-stat-label">Negocios activos</div>
+        </div>
+        <div style="width:1px;background:rgba(255,255,255,0.2)"></div>
+        <div>
+          <div class="hero-stat-value">500+</div>
+          <div class="hero-stat-label">Clientes registrados</div>
+        </div>
+        <div style="width:1px;background:rgba(255,255,255,0.2)"></div>
+        <div>
+          <div class="hero-stat-value">100%</div>
+          <div class="hero-stat-label">Gratuito para clientes</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SIDE PANEL -->
+  <aside class="side-panel">
+
+    <div class="how-header">
+      <div class="how-title">Como funciona</div>
+      <div class="how-subtitle">Tres pasos sencillos para empezar a ganar</div>
     </div>
 
-    <h2 class="section-title">Recompensas disponibles en Sucre</h2>
-
-    <div class="tabs">
-      <button class="tab active">🔥 Más populares</button>
-      <button class="tab">🆕 Nuevas</button>
-      <button class="tab">⭐ Mejor valoradas</button>
-      <button class="tab">🎁 Gratis</button>
-    </div>
-
-    <!-- Cards grid -->
-    <div class="cards-grid" id="cardsGrid">
-
-      <div class="card">
-        <div class="card-author">
-          <div class="card-author-avatar" style="background:#C4873B">C</div>
-          <div class="card-author-info">
-            <div><strong>café colonial</strong></div>
-            <div class="time">Hace 2 horas</div>
-          </div>
-        </div>
-        <div class="card-logo" style="background:#FEF3C7">
-          <div class="logo-box">☕</div>
-        </div>
-        <div class="card-body">
-          <span class="badge badge-puntos">PUNTOS</span>
-          <div class="card-desc">Acumula 5 cafés y obtén el 6to completamente gratis en Café Colonial del centro de Sucre</div>
-          <div class="card-discount">5 → 1 GRATIS</div>
-        </div>
-        <div class="card-footer">
-          <div class="card-brand">En <span>Café Colonial</span></div>
-          <div class="card-actions">
-            <button class="vote-btn">← 42 →</button>
-            <button class="vote-btn fire">🔥 8</button>
-            <button class="bookmark-btn">🔖</button>
-          </div>
+    <div class="how-steps">
+      <div class="how-step">
+        <div class="step-num">1</div>
+        <div class="step-text">
+          <strong>Registrate gratis</strong>
+          <span>Crea tu cuenta en menos de un minuto. Solo nombre, email y contrasena.</span>
         </div>
       </div>
-
-      <div class="card">
-        <div class="card-author">
-          <div class="card-author-avatar" style="background:#059669">F</div>
-          <div class="card-author-info">
-            <div><strong>farmacoop</strong></div>
-            <div class="time">Hace 1 día</div>
-          </div>
-        </div>
-        <div class="card-logo" style="background:#D1FAE5">
-          <div class="logo-box">💊</div>
-        </div>
-        <div class="card-body">
-          <span class="badge badge-oferta">OFERTA</span>
-          <div class="card-desc">10% de descuento en medicamentos genéricos presentando tu tarjeta digital ClientesFieles</div>
-          <div class="card-discount green">10% OFF</div>
-        </div>
-        <div class="card-footer">
-          <div class="card-brand">En <span>FarmaCoop</span></div>
-          <div class="card-actions">
-            <button class="vote-btn">← 31 →</button>
-            <button class="vote-btn fire">🔥 5</button>
-            <button class="bookmark-btn">🔖</button>
-          </div>
+      <div class="how-step">
+        <div class="step-num">2</div>
+        <div class="step-text">
+          <strong>Escanea o da tu codigo</strong>
+          <span>En cada compra, el negocio registra los puntos con tu codigo de cliente.</span>
         </div>
       </div>
-
-      <div class="card">
-        <div class="card-author">
-          <div class="card-author-avatar" style="background:#7C3AED">P</div>
-          <div class="card-author-info">
-            <div><strong>pizz. plaza</strong></div>
-            <div class="time">Hace 3 días</div>
-          </div>
+      <div class="how-step">
+        <div class="step-num">3</div>
+        <div class="step-text">
+          <strong>Canjea recompensas</strong>
+          <span>Acumula puntos y canjeálos por descuentos, productos o servicios gratis.</span>
         </div>
-        <div class="card-logo" style="background:#EDE9FE">
-          <div class="logo-box">🍕</div>
-        </div>
-        <div class="card-body">
-          <span class="badge badge-cupon">CUPÓN</span>
-          <div class="card-desc">2×1 en pizzas medianas todos los miércoles para clientes con 100+ puntos acumulados</div>
-          <div class="card-discount">2×1 MIÉRCOLES</div>
-        </div>
-        <div class="card-footer">
-          <div class="card-brand">En <span>Pizzería Plaza</span></div>
-          <div class="card-actions">
-            <button class="vote-btn">← 67 →</button>
-            <button class="vote-btn fire">🔥 14</button>
-            <button class="bookmark-btn">🔖</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-author">
-          <div class="card-author-avatar" style="background:#DC2626">H</div>
-          <div class="card-author-info">
-            <div><strong>helad. real</strong></div>
-            <div class="time">Hace 5 días</div>
-          </div>
-        </div>
-        <div class="card-logo" style="background:#FEE2E2">
-          <div class="logo-box">🍦</div>
-        </div>
-        <div class="card-body">
-          <span class="badge badge-gratis-tag">GRATIS</span>
-          <div class="card-desc">Helado doble gratis en tu cumpleaños si tienes cuenta activa en ClientesFieles</div>
-          <div class="card-discount orange">GRATIS</div>
-        </div>
-        <div class="card-footer">
-          <div class="card-brand">En <span>Heladería Real</span></div>
-          <div class="card-actions">
-            <button class="vote-btn">← 89 →</button>
-            <button class="vote-btn fire">🔥 22</button>
-            <button class="bookmark-btn">🔖</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-author">
-          <div class="card-author-avatar" style="background:#0284C7">L</div>
-          <div class="card-author-info">
-            <div><strong>libre moda</strong></div>
-            <div class="time">Hace 1 semana</div>
-          </div>
-        </div>
-        <div class="card-logo" style="background:#E0F2FE">
-          <div class="logo-box">👗</div>
-        </div>
-        <div class="card-body">
-          <span class="badge badge-cupon">CUPÓN</span>
-          <div class="card-desc">15% de descuento en toda la ropa nueva de temporada otoño-invierno con código QR</div>
-          <div class="card-discount">15% OFF</div>
-        </div>
-        <div class="card-footer">
-          <div class="card-brand">En <span>Libre Moda</span></div>
-          <div class="card-actions">
-            <button class="vote-btn">← 28 →</button>
-            <button class="vote-btn fire">🔥 4</button>
-            <button class="bookmark-btn">🔖</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-author">
-          <div class="card-author-avatar" style="background:#D97706">G</div>
-          <div class="card-author-info">
-            <div><strong>gimnasio sol</strong></div>
-            <div class="time">Hace 2 semanas</div>
-          </div>
-        </div>
-        <div class="card-logo" style="background:#FEF3C7">
-          <div class="logo-box">🏋️</div>
-        </div>
-        <div class="card-body">
-          <span class="badge badge-puntos">PUNTOS</span>
-          <div class="card-desc">Primer mes gratis si acumulas 200 puntos visitando 3 negocios distintos del programa</div>
-          <div class="card-discount green">1 MES GRATIS</div>
-        </div>
-        <div class="card-footer">
-          <div class="card-brand">En <span>Gimnasio Sol</span></div>
-          <div class="card-actions">
-            <button class="vote-btn">← 55 →</button>
-            <button class="vote-btn fire">🔥 11</button>
-            <button class="bookmark-btn">🔖</button>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- MEGA OFERTAS -->
-    <h2 class="section-title">Mejores recompensas – Mayo 2026</h2>
-
-    <div class="mega-offer">
-      <div class="mega-offer-inner">
-        <div class="mega-offer-logo" style="background:#FEF3C7">☕</div>
-        <div class="mega-offer-info">
-          <div class="mega-offer-meta">
-            <span class="verified">✔ Verificado</span>
-            <span>· Hace 30 min</span>
-            <span>· Finaliza 31/05/2026</span>
-          </div>
-          <div class="mega-offer-title">Café Colonial: tarjeta digital — acumula 50 puntos por visita y canjea tu café gratis</div>
-          <div class="mega-offer-discount">50 pts / visita</div>
-        </div>
-      </div>
-      <div class="mega-offer-actions">
-        <button class="btn-qr">📱 Ver QR</button>
-        <button class="btn-ver-cupon">Canjear ahora</button>
       </div>
     </div>
 
-    <div class="mega-offer">
-      <div class="mega-offer-inner">
-        <div class="mega-offer-logo" style="background:#D1FAE5">💊</div>
-        <div class="mega-offer-info">
-          <div class="mega-offer-meta">
-            <span class="verified">✔ Verificado</span>
-            <span>· Hace 2 horas</span>
-            <span>· Finaliza 30/05/2026</span>
+    <div class="businesses-section">
+      <div class="businesses-header">
+        <div class="businesses-title">Negocios participantes</div>
+        <a href="registro.html" style="font-family:var(--font-ui);font-weight:700;font-size:11px;color:var(--purple);text-decoration:none;">Ver todos</a>
+      </div>
+      <div class="businesses-grid">
+        <a href="#" class="biz-item" onclick="return false">
+          <div class="biz-icon" style="background:#FEF3C7">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C4873B" stroke-width="2" stroke-linecap="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
           </div>
-          <div class="mega-offer-title">FarmaCoop: 10% de descuento en medicamentos genéricos con tu perfil ClientesFieles</div>
-          <div class="mega-offer-discount" style="color:var(--green);">10% OFF</div>
-        </div>
-      </div>
-      <div class="mega-offer-actions">
-        <button class="btn-qr">📱 Ver QR</button>
-        <button class="btn-ver-cupon">Canjear ahora</button>
-      </div>
-    </div>
-
-    <div class="mega-offer">
-      <div class="mega-offer-inner">
-        <div class="mega-offer-logo" style="background:#EDE9FE">🍕</div>
-        <div class="mega-offer-info">
-          <div class="mega-offer-meta">
-            <span class="verified">✔ Verificado</span>
-            <span>· Hace 1 día</span>
-            <span>· Todos los miércoles</span>
+          <div class="biz-name">Cafeterias</div>
+        </a>
+        <a href="#" class="biz-item" onclick="return false">
+          <div class="biz-icon" style="background:#D1FAE5">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
           </div>
-          <div class="mega-offer-title">Pizzería Plaza: 2×1 en pizzas medianas cada miércoles para clientes con 100+ puntos</div>
-          <div class="mega-offer-discount">2×1 MIÉRCOLES</div>
-        </div>
-      </div>
-      <div class="mega-offer-actions">
-        <button class="btn-qr">📱 Ver QR</button>
-        <button class="btn-ver-cupon">Canjear ahora</button>
-      </div>
-    </div>
-
-  </main>
-
-  <!-- ===== SIDEBAR ===== -->
-  <aside class="sidebar">
-
-    <div class="featured-card">
-      <div class="featured-header">
-        🏆 Recompensas destacadas
-        <a href="#">Ver más</a>
-      </div>
-      <div class="featured-item">
-        <div class="featured-item-logo">☕</div>
-        <div class="featured-item-text">
-          <div class="featured-item-name">Café Colonial</div>
-          <div class="featured-item-sub">6to café gratis</div>
-        </div>
-        <button class="btn-ver-cupon">Ver</button>
-      </div>
-      <div class="featured-item">
-        <div class="featured-item-logo">💊</div>
-        <div class="featured-item-text">
-          <div class="featured-item-name">FarmaCoop</div>
-          <div class="featured-item-sub">10% en genéricos</div>
-        </div>
-        <button class="btn-ver-cupon">Ver</button>
-      </div>
-      <div class="featured-item">
-        <div class="featured-item-logo">🍕</div>
-        <div class="featured-item-text">
-          <div class="featured-item-name">Pizzería Plaza</div>
-          <div class="featured-item-sub">2×1 miércoles</div>
-        </div>
-        <button class="btn-ver-cupon">Ver</button>
-      </div>
-      <div class="featured-item">
-        <div class="featured-item-logo">🍦</div>
-        <div class="featured-item-text">
-          <div class="featured-item-name">Heladería Real</div>
-          <div class="featured-item-sub">Gratis cumpleaños</div>
-        </div>
-        <button class="btn-ver-cupon">Ver</button>
-      </div>
-      <div class="featured-item">
-        <div class="featured-item-logo">🏋️</div>
-        <div class="featured-item-text">
-          <div class="featured-item-name">Gimnasio Sol</div>
-          <div class="featured-item-sub">1 mes gratis</div>
-        </div>
-        <button class="btn-ver-cupon">Ver</button>
-      </div>
-    </div>
-
-    <div class="featured-card">
-      <div class="featured-header">
-        🏪 Negocios en Sucre
-        <a href="#">Ver todos</a>
-      </div>
-      <div style="padding:12px;">
-        <div class="negocios-grid">
-          <a href="#" class="negocio-item">
-            <div class="negocio-logo">☕</div>
-            <div class="negocio-name">Café Colonial</div>
-          </a>
-          <a href="#" class="negocio-item">
-            <div class="negocio-logo">💊</div>
-            <div class="negocio-name">FarmaCoop</div>
-          </a>
-          <a href="#" class="negocio-item">
-            <div class="negocio-logo">🍕</div>
-            <div class="negocio-name">Pizzería Plaza</div>
-          </a>
-          <a href="#" class="negocio-item">
-            <div class="negocio-logo">🍦</div>
-            <div class="negocio-name">Helad. Real</div>
-          </a>
-          <a href="#" class="negocio-item">
-            <div class="negocio-logo">🏋️</div>
-            <div class="negocio-name">Gimnasio Sol</div>
-          </a>
-          <a href="#" class="negocio-item">
-            <div class="negocio-logo">👗</div>
-            <div class="negocio-name">Libre Moda</div>
-          </a>
-          <a href="#" class="negocio-item">
-            <div class="negocio-logo">✂️</div>
-            <div class="negocio-name">Salón Bella</div>
-          </a>
-          <a href="#" class="negocio-item">
-            <div class="negocio-logo">📚</div>
-            <div class="negocio-name">Librería Sur</div>
-          </a>
-          <a href="#" class="negocio-item">
-            <div class="negocio-logo">🌿</div>
-            <div class="negocio-name">Eco Market</div>
-          </a>
-        </div>
-        <a href="registro.html" style="display:block;margin-top:10px;text-align:center;background:var(--purple);color:white;border-radius:8px;padding:8px;font-family:var(--font-ui);font-weight:800;font-size:12.5px;text-decoration:none;">
-          + Registra tu negocio
+          <div class="biz-name">Farmacias</div>
+        </a>
+        <a href="#" class="biz-item" onclick="return false">
+          <div class="biz-icon" style="background:#EDE9FE">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          </div>
+          <div class="biz-name">Tiendas</div>
+        </a>
+        <a href="#" class="biz-item" onclick="return false">
+          <div class="biz-icon" style="background:#FEE2E2">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          </div>
+          <div class="biz-name">Restaurantes</div>
+        </a>
+        <a href="#" class="biz-item" onclick="return false">
+          <div class="biz-icon" style="background:#DBEAFE">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2" stroke-linecap="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </div>
+          <div class="biz-name">Belleza</div>
+        </a>
+        <a href="#" class="biz-item" onclick="return false">
+          <div class="biz-icon" style="background:#FEF3C7">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <div class="biz-name">Gimnasios</div>
         </a>
       </div>
     </div>
 
-    <div class="featured-card">
-      <div class="featured-header">❓ ¿Cómo funciona?</div>
-      <div style="padding:14px;display:flex;flex-direction:column;gap:12px;">
-        <div style="display:flex;gap:10px;align-items:flex-start;">
-          <div style="width:28px;height:28px;background:var(--purple);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-ui);font-weight:900;font-size:13px;flex-shrink:0;">1</div>
-          <div style="font-size:12.5px;color:var(--gray-600);"><strong style="color:var(--gray-800);">Regístrate gratis</strong> en ClientesFieles en menos de 1 minuto</div>
-        </div>
-        <div style="display:flex;gap:10px;align-items:flex-start;">
-          <div style="width:28px;height:28px;background:var(--purple);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-ui);font-weight:900;font-size:13px;flex-shrink:0;">2</div>
-          <div style="font-size:12.5px;color:var(--gray-600);"><strong style="color:var(--gray-800);">Escanea el QR</strong> del negocio o da tu código al cajero</div>
-        </div>
-        <div style="display:flex;gap:10px;align-items:flex-start;">
-          <div style="width:28px;height:28px;background:var(--purple);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-ui);font-weight:900;font-size:13px;flex-shrink:0;">3</div>
-          <div style="font-size:12.5px;color:var(--gray-600);"><strong style="color:var(--gray-800);">Canjea recompensas</strong> — descuentos, productos gratis y más</div>
-        </div>
-      </div>
+    <div class="side-cta">
+      <p class="side-cta-text">
+        ¿Tienes un negocio en Sucre? <strong>Registralo gratis</strong> y empieza a fidelizar clientes hoy.
+      </p>
+      <a href="registro.html" class="btn btn-primary btn-full">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+        Registrar mi negocio
+      </a>
     </div>
 
   </aside>
 </div>
 
-<!-- WhatsApp flotante -->
-<a href="https://wa.me/59170000000?text=Hola!%20Quiero%20saber%20m%C3%A1s%20sobre%20ClientesFieles"
-   class="whatsapp-float" target="_blank">
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
-    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/>
-  </svg>
-  Escríbenos
-</a>
-
 <script>
-  // Tabs
-  document.querySelectorAll('.tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-    });
-  });
-
-  // Subnav
-  document.querySelectorAll('.subnav a').forEach(link => {
-    link.addEventListener('click', e => {
-      document.querySelectorAll('.subnav a').forEach(l => l.classList.remove('active'));
-      link.classList.add('active');
-    });
-  });
-
-  // Bookmark toggle
-  document.querySelectorAll('.bookmark-btn').forEach(btn => {
-    btn.addEventListener('click', e => {
-      e.stopPropagation();
-      btn.textContent = btn.textContent.trim() === '🔖' ? '📌' : '🔖';
-    });
-  });
-
-  // Búsqueda en cards
-  document.getElementById('searchInput').addEventListener('input', function () {
-    const q = this.value.toLowerCase();
-    document.querySelectorAll('#cardsGrid .card').forEach(card => {
-      card.style.display = card.textContent.toLowerCase().includes(q) ? '' : 'none';
+  document.querySelectorAll('.subnav-item').forEach(item => {
+    item.addEventListener('click', e => {
+      document.querySelectorAll('.subnav-item').forEach(i => i.classList.remove('active'));
+      item.classList.add('active');
     });
   });
 </script>

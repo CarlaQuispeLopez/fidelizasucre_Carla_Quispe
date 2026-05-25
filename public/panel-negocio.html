@@ -1,172 +1,716 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Panel de Negocio - FidelizaSucre</title>
-  <meta name="robots" content="noindex">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/main.css">
-  <link rel="stylesheet" href="/css/panel.css">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Panel de Negocio — ClientesFieles</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/main.css"/>
+  <style>
+    html, body { height: 100%; overflow: hidden; display: flex; flex-direction: column; }
+
+    .topbar {
+      background: var(--purple);
+      height: 52px;
+      display: flex; align-items: center;
+      padding: 0 20px; gap: 16px; flex-shrink: 0;
+    }
+    .topbar-logo {
+      font-family: var(--font-ui); font-weight: 900; font-size: 18px;
+      color: white; text-decoration: none; display: flex; align-items: center; gap: 7px;
+    }
+    .topbar-logo span { font-weight: 500; opacity: 0.8; }
+    .topbar-spacer { flex: 1; }
+    .topbar-badge {
+      background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25);
+      color: rgba(255,255,255,0.9); font-family: var(--font-ui); font-weight: 700;
+      font-size: 11px; padding: 2px 8px; border-radius: 20px;
+    }
+    .topbar-user { display: flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.9); font-size: 13px; }
+    .topbar-avatar {
+      width: 32px; height: 32px; border-radius: 8px;
+      background: rgba(255,255,255,0.2);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-ui); font-weight: 900; font-size: 13px; color: white;
+    }
+    .topbar-btn {
+      background: none; border: none; color: rgba(255,255,255,0.7);
+      cursor: pointer; padding: 5px; border-radius: 6px;
+      display: flex; align-items: center; transition: all 0.15s;
+    }
+    .topbar-btn:hover { background: rgba(255,255,255,0.15); color: white; }
+
+    .layout { flex: 1; display: flex; overflow: hidden; }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: 220px; flex-shrink: 0;
+      background: white; border-right: 1px solid var(--gray-200);
+      display: flex; flex-direction: column; overflow: hidden;
+    }
+
+    .biz-info-card {
+      margin: 12px;
+      background: linear-gradient(135deg, var(--purple-dark), var(--purple-mid));
+      border-radius: 12px; padding: 14px; color: white;
+    }
+    .biz-info-name {
+      font-family: var(--font-ui); font-weight: 900; font-size: 14px;
+      margin-bottom: 2px; line-height: 1.2;
+    }
+    .biz-info-tipo { font-size: 11px; opacity: 0.7; margin-bottom: 10px; }
+    .biz-stat-row { display: flex; gap: 10px; }
+    .biz-stat {
+      background: rgba(255,255,255,0.12); border-radius: 8px;
+      padding: 8px 10px; flex: 1; text-align: center;
+    }
+    .biz-stat-val { font-family: var(--font-ui); font-weight: 900; font-size: 18px; line-height: 1; }
+    .biz-stat-lbl { font-size: 10px; opacity: 0.7; margin-top: 2px; }
+
+    .sidebar-divider { height: 1px; background: var(--gray-100); margin: 6px 12px; }
+    .sidebar-section { padding: 10px 12px 4px; }
+    .sidebar-label {
+      font-family: var(--font-ui); font-weight: 800; font-size: 10px;
+      text-transform: uppercase; letter-spacing: 0.6px; color: var(--gray-400);
+      padding: 0 8px; margin-bottom: 5px;
+    }
+    .nav-item {
+      display: flex; align-items: center; gap: 9px;
+      padding: 8px 10px; border-radius: var(--radius);
+      font-family: var(--font-ui); font-weight: 700; font-size: 13px;
+      color: var(--gray-600); cursor: pointer; transition: all 0.12s;
+      border: none; background: none; width: 100%; text-align: left;
+    }
+    .nav-item svg { color: var(--gray-400); flex-shrink: 0; transition: color 0.12s; }
+    .nav-item:hover { background: var(--gray-100); color: var(--gray-800); }
+    .nav-item:hover svg { color: var(--gray-600); }
+    .nav-item.active { background: var(--purple-bg); color: var(--purple); }
+    .nav-item.active svg { color: var(--purple); }
+
+    /* CONTENT */
+    .content {
+      flex: 1; display: flex; flex-direction: column;
+      overflow: hidden; background: var(--gray-50);
+    }
+    .content-header {
+      background: white; border-bottom: 1px solid var(--gray-200);
+      padding: 14px 24px; display: flex; align-items: center; justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .content-title { font-family: var(--font-ui); font-weight: 900; font-size: 18px; color: var(--gray-900); letter-spacing: -0.3px; }
+    .content-subtitle { font-size: 12px; color: var(--gray-500); margin-top: 1px; }
+    .content-body { flex: 1; overflow-y: auto; padding: 20px 24px; }
+
+    .section { display: none; }
+    .section.active { display: flex; flex-direction: column; gap: 16px; }
+
+    .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+
+    /* Clientes table */
+    .table-card { background: white; border: 1px solid var(--gray-200); border-radius: var(--radius-lg); overflow: hidden; }
+    .table-scroll { overflow-x: auto; max-height: 340px; overflow-y: auto; }
+
+    /* Recompensas */
+    .rewards-panel { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .rewards-list { display: flex; flex-direction: column; gap: 8px; }
+    .reward-item {
+      background: white; border: 1px solid var(--gray-200); border-radius: var(--radius);
+      padding: 12px 14px; display: flex; align-items: flex-start; justify-content: space-between; gap: 10px;
+    }
+    .reward-item-name { font-family: var(--font-ui); font-weight: 800; font-size: 13.5px; color: var(--gray-800); }
+    .reward-item-desc { font-size: 11.5px; color: var(--gray-500); margin-top: 2px; }
+    .reward-item-pts { font-family: var(--font-ui); font-weight: 900; font-size: 13px; color: var(--purple); white-space: nowrap; }
+
+    /* Form nueva recompensa */
+    .new-reward-form {
+      background: white; border: 1px solid var(--gray-200); border-radius: var(--radius-lg);
+      padding: 18px 20px; display: flex; flex-direction: column; gap: 12px;
+    }
+    .new-reward-title {
+      font-family: var(--font-ui); font-weight: 900; font-size: 15px; color: var(--gray-800); margin-bottom: 2px;
+    }
+
+    /* Sumar puntos */
+    .sumar-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .sumar-form {
+      background: white; border: 1px solid var(--gray-200); border-radius: var(--radius-lg);
+      padding: 20px; display: flex; flex-direction: column; gap: 14px;
+    }
+
+    /* QR */
+    .qr-section {
+      background: white; border: 1px solid var(--gray-200); border-radius: var(--radius-lg);
+      padding: 24px; display: flex; flex-direction: column; align-items: center; gap: 14px;
+    }
+    .qr-title { font-family: var(--font-ui); font-weight: 900; font-size: 16px; color: var(--gray-800); }
+    .qr-desc { font-size: 13px; color: var(--gray-500); text-align: center; max-width: 280px; line-height: 1.5; }
+    #qrImage { border-radius: 12px; border: 1px solid var(--gray-200); }
+
+    #alertBox { display: none; }
+  </style>
 </head>
-<body class="panel-body">
+<body>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <a href="index.html" class="topbar-logo">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round">
+      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+    </svg>
+    Clientes<span>Fieles</span>
+  </a>
+  <div class="topbar-spacer"></div>
+  <span class="topbar-badge">Negocio</span>
+  <div class="topbar-user">
+    <div class="topbar-avatar" id="topbarInitial">N</div>
+    <span id="topbarName">Cargando...</span>
+  </div>
+  <button class="topbar-btn" title="Cerrar sesion" onclick="cerrarSesion()">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+  </button>
+</header>
+
+<div class="layout">
 
   <!-- SIDEBAR -->
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-      <a href="/" class="nav-logo">
-        <span class="logo-icon">F</span>
-        <span class="logo-text">Fideliza<strong>Sucre</strong></span>
-      </a>
+  <aside class="sidebar">
+    <div class="biz-info-card">
+      <div class="biz-info-name" id="bizName">Mi negocio</div>
+      <div class="biz-info-tipo" id="bizTipo">Cargando...</div>
+      <div class="biz-stat-row">
+        <div class="biz-stat">
+          <div class="biz-stat-val" id="sidebarClientes">—</div>
+          <div class="biz-stat-lbl">Clientes</div>
+        </div>
+        <div class="biz-stat">
+          <div class="biz-stat-val" id="sidebarRecompensas">—</div>
+          <div class="biz-stat-lbl">Recompensas</div>
+        </div>
+      </div>
     </div>
-    <nav class="sidebar-nav">
-      <a href="#" class="sidebar-link active" onclick="mostrarSeccion('resumen', this)">
-        <span class="sidebar-icon">inicio</span>
+
+    <div class="sidebar-divider"></div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Menu</div>
+      <button class="nav-item active" onclick="showSection('resumen')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
         Resumen
-      </a>
-      <a href="#" class="sidebar-link" onclick="mostrarSeccion('clientes', this)">
-        <span class="sidebar-icon">clientes</span>
-        Mis Clientes
-      </a>
-      <a href="#" class="sidebar-link" onclick="mostrarSeccion('recompensas', this)">
-        <span class="sidebar-icon">premio</span>
+      </button>
+      <button class="nav-item" onclick="showSection('clientes')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Mis clientes
+      </button>
+      <button class="nav-item" onclick="showSection('recompensas')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
         Recompensas
-      </a>
-      <a href="#" class="sidebar-link" onclick="mostrarSeccion('puntos', this)">
-        <span class="sidebar-icon">sumar</span>
-        Sumar Puntos
-      </a>
-      <a href="#" class="sidebar-link" onclick="mostrarSeccion('qr', this)">
-        <span class="sidebar-icon">qr</span>
-        Mi Codigo QR
-      </a>
-    </nav>
-    <div class="sidebar-footer">
-      <button class="btn-cerrar-sesion" onclick="cerrarSesion()">Cerrar sesion</button>
+      </button>
+      <button class="nav-item" onclick="showSection('puntos')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+        Sumar puntos
+      </button>
+      <button class="nav-item" onclick="showSection('qr')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        Mi codigo QR
+      </button>
+    </div>
+
+    <div style="flex:1;"></div>
+    <div class="sidebar-divider"></div>
+    <div style="padding:10px 12px;">
+      <button class="nav-item" onclick="cerrarSesion()" style="color:var(--red);">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="color:var(--red)"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Cerrar sesion
+      </button>
     </div>
   </aside>
 
-  <!-- MAIN -->
-  <main class="panel-main">
-    <header class="panel-header">
-      <h1 class="panel-title" id="panelTitulo">Resumen</h1>
-      <div class="panel-header-right">
-        <span class="plan-badge-small" id="planBadge">Plan Gratuito</span>
-        <span class="negocio-nombre" id="negocioNombre">Mi Negocio</span>
+  <!-- CONTENT -->
+  <main class="content">
+    <div class="content-header">
+      <div>
+        <div class="content-title" id="pageTitle">Resumen</div>
+        <div class="content-subtitle" id="pageSubtitle">Vista general de tu negocio</div>
       </div>
-    </header>
+      <div id="alertBox" class="alert" style="display:none;"></div>
+    </div>
 
-    <!-- SECCION RESUMEN -->
-    <section class="panel-section active" id="seccion-resumen">
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-card-label">Clientes registrados</div>
-          <div class="stat-card-value" id="totalClientes">0</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card-label">Recompensas activas</div>
-          <div class="stat-card-value" id="totalRecompensas">0</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card-label">Tu plan</div>
-          <div class="stat-card-value" id="planNombre">Gratuito</div>
-        </div>
-      </div>
+    <div class="content-body">
 
-      <div class="panel-card">
-        <h3>Clientes mas frecuentes</h3>
-        <div id="listaClientesFrecuentes">
-          <div class="loading-text">Cargando clientes...</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- SECCION CLIENTES -->
-    <section class="panel-section" id="seccion-clientes">
-      <div class="panel-card">
-        <h3>Todos mis clientes</h3>
-        <div id="tablaClientes">
-          <div class="loading-text">Cargando clientes...</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- SECCION RECOMPENSAS -->
-    <section class="panel-section" id="seccion-recompensas">
-      <div class="panel-card">
-        <div class="card-header-row">
-          <h3>Mis recompensas</h3>
-          <button class="btn-small" onclick="mostrarFormRecompensa()">Nueva recompensa</button>
-        </div>
-
-        <div id="formNuevaRecompensa" class="form-recompensa" style="display:none;">
-          <h4>Crear nueva recompensa</h4>
-          <div class="form-group">
-            <label>Nombre de la recompensa</label>
-            <input type="text" id="recompensaNombre" placeholder="Ej: Cafe gratis">
+      <!-- RESUMEN -->
+      <div class="section active" id="secResumen">
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-icon stat-icon-purple">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <div>
+              <div class="stat-value" id="statClientes">—</div>
+              <div class="stat-label">Clientes registrados</div>
+            </div>
           </div>
-          <div class="form-group">
-            <label>Descripcion (opcional)</label>
-            <input type="text" id="recompensaDesc" placeholder="Ej: Un cafe americano de cualquier tamano">
+          <div class="stat-card">
+            <div class="stat-icon stat-icon-green">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/></svg>
+            </div>
+            <div>
+              <div class="stat-value" id="statRecompensasN">—</div>
+              <div class="stat-label">Recompensas activas</div>
+            </div>
           </div>
-          <div class="form-group">
-            <label>Puntos requeridos para canjear</label>
-            <input type="number" id="recompensaPuntos" placeholder="Ej: 100" min="1">
-          </div>
-          <div class="form-actions">
-            <button class="btn-primary" onclick="crearRecompensa()">Guardar recompensa</button>
-            <button class="btn-secondary" onclick="ocultarFormRecompensa()">Cancelar</button>
+          <div class="stat-card">
+            <div class="stat-icon stat-icon-amber">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            <div>
+              <div class="stat-value" id="statPlan">—</div>
+              <div class="stat-label">Plan actual</div>
+            </div>
           </div>
         </div>
 
-        <div id="listaRecompensas">
-          <div class="loading-text">Cargando recompensas...</div>
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+              Clientes frecuentes
+            </div>
+            <button class="btn btn-ghost btn-sm" onclick="showSection('clientes')">Ver todos</button>
+          </div>
+          <div style="overflow:auto;max-height:260px;">
+            <table class="table">
+              <thead><tr><th>Cliente</th><th>Visitas</th><th>Puntos</th><th>Ultima visita</th></tr></thead>
+              <tbody id="resumenClientesBody">
+                <tr><td colspan="4" style="text-align:center;padding:20px;color:var(--gray-400)">Cargando...</td></tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
-    </section>
 
-    <!-- SECCION SUMAR PUNTOS -->
-    <section class="panel-section" id="seccion-puntos">
-      <div class="panel-card">
-        <h3>Sumar puntos a un cliente</h3>
-        <p class="card-desc">Ingresa el codigo del cliente para agregar puntos despues de una compra.</p>
-
-        <div class="form-group">
-          <label>Codigo del cliente</label>
-          <input type="text" id="codigoCliente" placeholder="Ej: CLI847291" style="text-transform:uppercase;">
-        </div>
-        <div class="form-group">
-          <label>Puntos a agregar</label>
-          <input type="number" id="puntosASumar" placeholder="Ej: 50" min="1">
-        </div>
-        <div class="form-group">
-          <label>Descripcion (opcional)</label>
-          <input type="text" id="descripcionPuntos" placeholder="Ej: Compra de cafe americano">
-        </div>
-
-        <button class="btn-primary" onclick="sumarPuntos()">Agregar puntos</button>
-
-        <div id="resultadoPuntos" class="resultado-puntos" style="display:none;"></div>
-      </div>
-    </section>
-
-    <!-- SECCION QR -->
-    <section class="panel-section" id="seccion-qr">
-      <div class="panel-card qr-card">
-        <h3>Tu codigo QR</h3>
-        <p class="card-desc">Imprime este codigo y coloca en tu mostrador. Los clientes lo escanean para acumular puntos.</p>
-        <div id="qrContainer">
-          <button class="btn-primary" onclick="generarQR()">Generar mi QR</button>
-        </div>
-        <div id="instruccionesQR" style="display:none;">
-          <p>Haz clic derecho en el QR y selecciona "Guardar imagen" para descargarlo e imprimirlo.</p>
+      <!-- CLIENTES -->
+      <div class="section" id="secClientes">
+        <div class="table-card">
+          <div class="card-header">
+            <div class="card-title">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+              Todos los clientes
+            </div>
+            <span class="badge badge-purple" id="totalClientesBadge">0 clientes</span>
+          </div>
+          <div class="table-scroll">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Email</th>
+                  <th>Puntos</th>
+                  <th>Visitas</th>
+                  <th>Ultima visita</th>
+                </tr>
+              </thead>
+              <tbody id="clientesBody">
+                <tr><td colspan="5" style="text-align:center;padding:20px;color:var(--gray-400)">Cargando...</td></tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
-    </section>
+
+      <!-- RECOMPENSAS -->
+      <div class="section" id="secRecompensas">
+        <div class="rewards-panel">
+          <!-- Lista -->
+          <div>
+            <div class="card-title" style="margin-bottom:10px;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/></svg>
+              Recompensas actuales
+            </div>
+            <div class="rewards-list" id="recompensasList">
+              <div style="padding:20px;text-align:center;color:var(--gray-400)">Cargando...</div>
+            </div>
+          </div>
+
+          <!-- Formulario -->
+          <div class="new-reward-form">
+            <div class="new-reward-title">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="display:inline;vertical-align:middle;margin-right:6px;" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+              Nueva recompensa
+            </div>
+            <div id="rewardAlert" style="display:none;"></div>
+            <div class="form-group">
+              <label class="form-label">Nombre de la recompensa *</label>
+              <input class="form-input" type="text" id="r_nombre" placeholder="Ej: Cafe gratis"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Descripcion</label>
+              <textarea class="form-input" id="r_desc" rows="2" placeholder="Detalle de la recompensa..." style="resize:none;padding:9px 12px;"></textarea>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Puntos requeridos *</label>
+              <input class="form-input" type="number" id="r_puntos" placeholder="Ej: 100" min="1"/>
+              <span class="form-hint">Cantidad de puntos que necesita el cliente para canjear</span>
+            </div>
+            <button class="btn btn-primary" id="btnCrearRecompensa" onclick="crearRecompensa()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+              Crear recompensa
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUMAR PUNTOS -->
+      <div class="section" id="secPuntos">
+        <div class="sumar-layout">
+          <div class="sumar-form">
+            <div style="font-family:var(--font-ui);font-weight:900;font-size:16px;color:var(--gray-800);margin-bottom:4px;">Sumar puntos a un cliente</div>
+            <p style="font-size:13px;color:var(--gray-500);margin-bottom:6px;">Ingresa el codigo del cliente y los puntos a otorgar por la compra.</p>
+            <div id="puntosAlert" style="display:none;"></div>
+            <div class="form-group">
+              <label class="form-label">Codigo del cliente *</label>
+              <div style="position:relative;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--gray-400)"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <input class="form-input" type="text" id="p_codigo" placeholder="CLI123456" style="padding-left:36px;text-transform:uppercase;font-family:var(--font-ui);font-weight:700;letter-spacing:1px;"/>
+              </div>
+              <span class="form-hint">El cliente puede ver su codigo en su panel</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Puntos a otorgar *</label>
+              <input class="form-input" type="number" id="p_puntos" placeholder="Ej: 50" min="1"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Descripcion de la compra</label>
+              <input class="form-input" type="text" id="p_desc" placeholder="Ej: Compra en caja, almuerzo del dia..."/>
+            </div>
+            <button class="btn btn-primary" id="btnSumarPuntos" onclick="sumarPuntos()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+              Sumar puntos
+            </button>
+          </div>
+
+          <!-- Instrucciones -->
+          <div class="card" style="padding:20px;">
+            <div class="card-title" style="margin-bottom:14px;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Como funciona
+            </div>
+            <div style="display:flex;flex-direction:column;gap:14px;">
+              <div style="display:flex;gap:10px;align-items:flex-start;">
+                <div style="width:24px;height:24px;background:var(--purple);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-ui);font-weight:900;font-size:11px;flex-shrink:0;">1</div>
+                <div style="font-size:12.5px;color:var(--gray-600);"><strong style="color:var(--gray-800);">El cliente te da su codigo</strong> — lo encuentra en su panel de cliente (formato CLI + 6 digitos)</div>
+              </div>
+              <div style="display:flex;gap:10px;align-items:flex-start;">
+                <div style="width:24px;height:24px;background:var(--purple);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-ui);font-weight:900;font-size:11px;flex-shrink:0;">2</div>
+                <div style="font-size:12.5px;color:var(--gray-600);"><strong style="color:var(--gray-800);">Ingresa el codigo</strong> en el campo de arriba y define cuantos puntos otorgar segun la compra</div>
+              </div>
+              <div style="display:flex;gap:10px;align-items:flex-start;">
+                <div style="width:24px;height:24px;background:var(--purple);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-ui);font-weight:900;font-size:11px;flex-shrink:0;">3</div>
+                <div style="font-size:12.5px;color:var(--gray-600);"><strong style="color:var(--gray-800);">Los puntos se acreditan</strong> inmediatamente en la cuenta del cliente</div>
+              </div>
+            </div>
+            <div style="margin-top:18px;padding:12px;background:var(--purple-bg);border-radius:var(--radius);border:1px solid var(--purple-border);">
+              <div style="font-family:var(--font-ui);font-weight:800;font-size:12px;color:var(--purple);margin-bottom:3px;">Alternativa: usa tu QR</div>
+              <div style="font-size:12px;color:var(--gray-600);">El cliente escanea el QR de tu negocio — ve a la seccion "Mi codigo QR".</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- QR -->
+      <div class="section" id="secQr">
+        <div style="display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:start;">
+          <div class="qr-section" style="width:280px;">
+            <div class="qr-title">Codigo QR de mi negocio</div>
+            <div id="qrContainer" style="width:220px;height:220px;background:var(--gray-100);border-radius:12px;display:flex;align-items:center;justify-content:center;border:1px solid var(--gray-200);">
+              <div style="text-align:center;color:var(--gray-400);">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" style="margin-bottom:8px;"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                <div style="font-size:12px;">Generando...</div>
+              </div>
+            </div>
+            <div class="qr-desc" id="qrDesc">Muestra este codigo a tus clientes para que puedan acumular puntos al comprar.</div>
+            <button class="btn btn-outline btn-sm" onclick="cargarQR()">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.56"/></svg>
+              Regenerar QR
+            </button>
+          </div>
+
+          <div class="card" style="padding:20px;">
+            <div class="card-title" style="margin-bottom:16px;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Instrucciones de uso
+            </div>
+            <div style="display:flex;flex-direction:column;gap:14px;">
+              <div style="display:flex;gap:12px;padding:14px;background:var(--gray-50);border-radius:10px;border:1px solid var(--gray-200);">
+                <div class="stat-icon stat-icon-purple" style="flex-shrink:0;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                </div>
+                <div>
+                  <div style="font-family:var(--font-ui);font-weight:800;font-size:13px;color:var(--gray-800);margin-bottom:3px;">Imprime o muestra en pantalla</div>
+                  <div style="font-size:12px;color:var(--gray-500);">Coloca tu QR en la caja o en un lugar visible del local para que los clientes lo escaneen facilmente.</div>
+                </div>
+              </div>
+              <div style="display:flex;gap:12px;padding:14px;background:var(--gray-50);border-radius:10px;border:1px solid var(--gray-200);">
+                <div class="stat-icon stat-icon-green" style="flex-shrink:0;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12"/><path d="M1 1l22 22"/></svg>
+                </div>
+                <div>
+                  <div style="font-family:var(--font-ui);font-weight:800;font-size:13px;color:var(--gray-800);margin-bottom:3px;">El cliente escanea con su camara</div>
+                  <div style="font-size:12px;color:var(--gray-500);">No necesitan app especial. Cualquier camara de smartphone moderno puede leer el QR.</div>
+                </div>
+              </div>
+              <div style="display:flex;gap:12px;padding:14px;background:var(--gray-50);border-radius:10px;border:1px solid var(--gray-200);">
+                <div class="stat-icon stat-icon-amber" style="flex-shrink:0;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                </div>
+                <div>
+                  <div style="font-family:var(--font-ui);font-weight:800;font-size:13px;color:var(--gray-800);margin-bottom:3px;">Los puntos se acreditan automaticamente</div>
+                  <div style="font-size:12px;color:var(--gray-500);">Una vez escaneado, tu defines los puntos a otorgar desde la seccion "Sumar puntos".</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
   </main>
+</div>
 
-  <script src="/js/panel.js"></script>
+<script>
+const API = '/api';
+let token    = localStorage.getItem('cf_token');
+let tipo     = localStorage.getItem('cf_tipo');
+let panelData = {};
+
+if (!token || tipo !== 'negocio') window.location.href = 'login.html';
+
+const headers = { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token };
+
+async function init() {
+  try {
+    const res  = await fetch(API + '/businesses/panel', { headers });
+    const data = await res.json();
+
+    if (!data.success) {
+      if (res.status === 401) cerrarSesion();
+      return;
+    }
+
+    panelData = data;
+    renderTopbar(data.negocio);
+    renderStats(data);
+    renderClientes(data.clientes_frecuentes, data.total_clientes);
+    renderRecompensas(data.recompensas);
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+function renderTopbar(n) {
+  document.getElementById('topbarInitial').textContent = n.nombre_negocio[0];
+  document.getElementById('topbarName').textContent    = n.nombre_negocio;
+  document.getElementById('bizName').textContent       = n.nombre_negocio;
+  document.getElementById('bizTipo').textContent       = n.tipo_negocio || 'Negocio local';
+}
+
+function renderStats(data) {
+  document.getElementById('statClientes').textContent    = data.total_clientes;
+  document.getElementById('statRecompensasN').textContent = data.recompensas.length;
+  document.getElementById('statPlan').textContent        = (data.negocio.plan || 'gratuito').charAt(0).toUpperCase() + (data.negocio.plan || 'gratuito').slice(1);
+  document.getElementById('sidebarClientes').textContent  = data.total_clientes;
+  document.getElementById('sidebarRecompensas').textContent = data.recompensas.length;
+}
+
+function renderClientes(list, total) {
+  const makeRow = c => `
+    <tr>
+      <td><strong>${c.nombre} ${c.apellido}</strong></td>
+      <td style="color:var(--gray-500)">${c.email}</td>
+      <td><span style="font-family:var(--font-ui);font-weight:900;color:var(--purple)">${c.puntos}</span></td>
+      <td>${c.visitas}</td>
+      <td style="color:var(--gray-400)">${c.ultima_visita ? new Date(c.ultima_visita).toLocaleDateString('es-BO', {day:'2-digit',month:'short',year:'numeric'}) : '—'}</td>
+    </tr>
+  `;
+  const short = list.slice(0, 5).map(c => `
+    <tr>
+      <td><strong>${c.nombre} ${c.apellido}</strong></td>
+      <td>${c.visitas} visitas</td>
+      <td><span style="font-family:var(--font-ui);font-weight:900;color:var(--purple)">${c.puntos} pts</span></td>
+      <td style="color:var(--gray-400)">${c.ultima_visita ? new Date(c.ultima_visita).toLocaleDateString('es-BO',{day:'2-digit',month:'short'}) : '—'}</td>
+    </tr>
+  `);
+
+  document.getElementById('resumenClientesBody').innerHTML = list.length
+    ? short.join('')
+    : '<tr><td colspan="4" style="text-align:center;padding:20px;color:var(--gray-400)">Sin clientes aun.</td></tr>';
+
+  document.getElementById('clientesBody').innerHTML = list.length
+    ? list.map(makeRow).join('')
+    : '<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--gray-400)">Sin clientes aun.</td></tr>';
+
+  document.getElementById('totalClientesBadge').textContent = total + ' clientes';
+}
+
+function renderRecompensas(list) {
+  document.getElementById('recompensasList').innerHTML = list.length
+    ? list.map(r => `
+      <div class="reward-item">
+        <div>
+          <div class="reward-item-name">${r.nombre}</div>
+          <div class="reward-item-desc">${r.descripcion || '—'}</div>
+        </div>
+        <div class="reward-item-pts">${r.puntos_requeridos} pts</div>
+      </div>
+    `).join('')
+    : '<div style="padding:16px;text-align:center;color:var(--gray-400);font-size:13px;">Aun no tienes recompensas creadas.</div>';
+}
+
+async function crearRecompensa() {
+  const nombre = document.getElementById('r_nombre').value.trim();
+  const desc   = document.getElementById('r_desc').value.trim();
+  const puntos = parseInt(document.getElementById('r_puntos').value);
+  const btn    = document.getElementById('btnCrearRecompensa');
+  const alertEl = document.getElementById('rewardAlert');
+
+  alertEl.style.display = 'none';
+
+  if (!nombre || !puntos || puntos < 1) {
+    alertEl.className = 'alert alert-error';
+    alertEl.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg> Nombre y puntos son obligatorios.';
+    alertEl.style.display = 'flex';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Creando...';
+
+  try {
+    const res  = await fetch(API + '/businesses/recompensa', {
+      method: 'POST', headers,
+      body: JSON.stringify({ nombre, descripcion: desc, puntos_requeridos: puntos })
+    });
+    const data = await res.json();
+
+    if (data.success) {
+      alertEl.className = 'alert alert-success';
+      alertEl.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Recompensa creada.';
+      alertEl.style.display = 'flex';
+      document.getElementById('r_nombre').value = '';
+      document.getElementById('r_desc').value   = '';
+      document.getElementById('r_puntos').value  = '';
+      await init();
+    } else {
+      alertEl.className = 'alert alert-error';
+      alertEl.innerHTML = data.message;
+      alertEl.style.display = 'flex';
+    }
+  } catch (e) {
+    alertEl.className = 'alert alert-error';
+    alertEl.textContent = 'Error de conexion.';
+    alertEl.style.display = 'flex';
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg> Crear recompensa';
+  }
+}
+
+async function sumarPuntos() {
+  const codigo = document.getElementById('p_codigo').value.trim().toUpperCase();
+  const puntos = parseInt(document.getElementById('p_puntos').value);
+  const desc   = document.getElementById('p_desc').value.trim();
+  const btn    = document.getElementById('btnSumarPuntos');
+  const alertEl = document.getElementById('puntosAlert');
+
+  alertEl.style.display = 'none';
+
+  if (!codigo || !puntos || puntos < 1) {
+    alertEl.className = 'alert alert-error';
+    alertEl.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg> Codigo y puntos son obligatorios.';
+    alertEl.style.display = 'flex';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Procesando...';
+
+  try {
+    const res  = await fetch(API + '/points/sumar', {
+      method: 'POST', headers,
+      body: JSON.stringify({ codigo_cliente: codigo, puntos, descripcion: desc })
+    });
+    const data = await res.json();
+
+    alertEl.className = data.success ? 'alert alert-success' : 'alert alert-error';
+    alertEl.innerHTML = (data.success
+      ? '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>'
+      : '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>'
+    ) + (data.message || 'Error');
+    alertEl.style.display = 'flex';
+
+    if (data.success) {
+      document.getElementById('p_codigo').value = '';
+      document.getElementById('p_puntos').value  = '';
+      document.getElementById('p_desc').value    = '';
+      await init();
+    }
+  } catch (e) {
+    alertEl.className = 'alert alert-error';
+    alertEl.textContent = 'Error de conexion.';
+    alertEl.style.display = 'flex';
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg> Sumar puntos';
+  }
+}
+
+async function cargarQR() {
+  const container = document.getElementById('qrContainer');
+  container.innerHTML = '<div style="text-align:center;color:var(--gray-400)"><div class="spinner" style="border-top-color:var(--purple);border-color:var(--gray-200);border-top-color:var(--purple);"></div></div>';
+
+  try {
+    const res  = await fetch(API + '/businesses/qr', { headers });
+    const data = await res.json();
+
+    if (data.success) {
+      container.innerHTML = `<img src="${data.qr_imagen}" width="220" height="220" alt="QR de negocio" style="border-radius:10px;"/>`;
+      document.getElementById('qrDesc').textContent = data.instrucciones;
+    } else {
+      container.innerHTML = '<div style="text-align:center;color:var(--red);font-size:12px;padding:20px">Error al generar QR</div>';
+    }
+  } catch (e) {
+    container.innerHTML = '<div style="text-align:center;color:var(--red);font-size:12px;padding:20px">Error de conexion</div>';
+  }
+}
+
+const pageTitles = {
+  resumen:      ['Resumen', 'Vista general de tu negocio'],
+  clientes:     ['Mis clientes', 'Clientes que han visitado tu negocio'],
+  recompensas:  ['Recompensas', 'Gestion de recompensas del programa'],
+  puntos:       ['Sumar puntos', 'Otorga puntos a tus clientes'],
+  qr:           ['Mi codigo QR', 'Codigo para que clientes escaneen en tu local']
+};
+
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('sec' + id.charAt(0).toUpperCase() + id.slice(1)).classList.add('active');
+  const t = pageTitles[id];
+  document.getElementById('pageTitle').textContent    = t[0];
+  document.getElementById('pageSubtitle').textContent = t[1];
+  const navMap = ['resumen','clientes','recompensas','puntos','qr'];
+  document.querySelectorAll('.nav-item').forEach((btn, i) => {
+    if (navMap[i] === id) btn.classList.add('active');
+  });
+  if (id === 'qr') cargarQR();
+}
+
+function cerrarSesion() {
+  localStorage.clear();
+  window.location.href = 'login.html';
+}
+
+init();
+</script>
 </body>
 </html>

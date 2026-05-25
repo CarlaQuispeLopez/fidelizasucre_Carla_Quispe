@@ -1,79 +1,448 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ingresar - FidelizaSucre</title>
-  <meta name="description" content="Ingresa a tu cuenta de FidelizaSucre para ver tus puntos y recompensas.">
-  <meta name="robots" content="noindex">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/main.css">
-  <link rel="stylesheet" href="/css/auth.css">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Iniciar Sesion — ClientesFieles</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/main.css"/>
+  <style>
+    html, body { height: 100%; overflow: hidden; display: flex; }
+
+    /* ===== SPLIT LAYOUT ===== */
+    .auth-left {
+      width: 420px;
+      flex-shrink: 0;
+      background: linear-gradient(160deg, var(--purple-dark) 0%, var(--purple) 60%, var(--purple-mid) 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 40px 44px;
+      position: relative;
+      overflow: hidden;
+    }
+    .auth-left::before {
+      content: '';
+      position: absolute;
+      width: 300px; height: 300px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 50%;
+      top: -80px; right: -80px;
+    }
+    .auth-left::after {
+      content: '';
+      position: absolute;
+      width: 200px; height: 200px;
+      background: rgba(255,255,255,0.04);
+      border-radius: 50%;
+      bottom: -50px; left: -50px;
+    }
+
+    .auth-logo {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-family: var(--font-ui);
+      font-weight: 900;
+      font-size: 22px;
+      color: white;
+      text-decoration: none;
+      position: relative;
+      z-index: 1;
+    }
+    .auth-logo span { font-weight: 500; opacity: 0.8; }
+
+    .auth-left-content { position: relative; z-index: 1; }
+    .auth-left-title {
+      font-family: var(--font-ui);
+      font-weight: 900;
+      font-size: 30px;
+      color: white;
+      line-height: 1.15;
+      margin-bottom: 16px;
+      letter-spacing: -0.5px;
+    }
+    .auth-left-title span { color: #C4A8FF; }
+    .auth-left-desc { font-size: 14px; color: rgba(255,255,255,0.75); line-height: 1.65; margin-bottom: 28px; }
+
+    .left-features { display: flex; flex-direction: column; gap: 12px; }
+    .left-feature {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 10px;
+      padding: 10px 14px;
+    }
+    .left-feature-icon {
+      width: 32px; height: 32px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .left-feature-text strong {
+      display: block;
+      font-family: var(--font-ui);
+      font-weight: 800;
+      font-size: 13px;
+      color: white;
+    }
+    .left-feature-text span { font-size: 11.5px; color: rgba(255,255,255,0.65); }
+
+    .auth-left-footer {
+      position: relative;
+      z-index: 1;
+      font-size: 11.5px;
+      color: rgba(255,255,255,0.5);
+    }
+
+    /* ===== RIGHT FORM ===== */
+    .auth-right {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px;
+      background: var(--gray-50);
+      overflow-y: auto;
+    }
+
+    .auth-form-box {
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .form-header {
+      margin-bottom: 28px;
+    }
+    .form-header-title {
+      font-family: var(--font-ui);
+      font-weight: 900;
+      font-size: 24px;
+      color: var(--gray-900);
+      margin-bottom: 6px;
+      letter-spacing: -0.3px;
+    }
+    .form-header-sub { font-size: 13.5px; color: var(--gray-500); }
+    .form-header-sub a { color: var(--purple); font-weight: 700; text-decoration: none; }
+    .form-header-sub a:hover { text-decoration: underline; }
+
+    /* Tabs tipo/cuenta */
+    .type-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: var(--gray-100);
+      border-radius: 10px;
+      padding: 4px;
+      gap: 4px;
+      margin-bottom: 22px;
+    }
+    .type-tab {
+      padding: 8px;
+      border-radius: 8px;
+      border: none;
+      background: transparent;
+      font-family: var(--font-ui);
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--gray-500);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.15s;
+    }
+    .type-tab.active {
+      background: white;
+      color: var(--purple);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    }
+
+    .form-fields { display: flex; flex-direction: column; gap: 14px; }
+
+    .input-with-icon { position: relative; }
+    .input-with-icon svg {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray-400);
+      pointer-events: none;
+    }
+    .input-with-icon .form-input { padding-left: 38px; }
+    .input-with-icon .eye-btn {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--gray-400);
+      padding: 3px;
+      display: flex;
+      align-items: center;
+    }
+    .input-with-icon .eye-btn:hover { color: var(--gray-700); }
+
+    .forgot-link {
+      text-align: right;
+      font-family: var(--font-ui);
+      font-weight: 700;
+      font-size: 12px;
+      color: var(--purple);
+      text-decoration: none;
+    }
+    .forgot-link:hover { text-decoration: underline; }
+
+    .divider-or {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 4px 0;
+    }
+    .divider-or::before, .divider-or::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--gray-200);
+    }
+    .divider-or span {
+      font-size: 11.5px;
+      color: var(--gray-400);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .register-link {
+      text-align: center;
+      font-size: 13px;
+      color: var(--gray-600);
+      margin-top: 4px;
+    }
+    .register-link a {
+      color: var(--purple);
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .register-link a:hover { text-decoration: underline; }
+
+    #alertBox { display: none; }
+  </style>
 </head>
-<body class="auth-body">
+<body>
 
-  <div class="auth-container">
-    <div class="auth-brand">
-      <a href="/" class="nav-logo">
-        <span class="logo-icon">F</span>
-        <span class="logo-text">Fideliza<strong>Sucre</strong></span>
-      </a>
-      <div class="auth-brand-bg"></div>
-    </div>
+<!-- LEFT BRAND -->
+<div class="auth-left">
+  <a href="index.html" class="auth-logo">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round">
+      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+    </svg>
+    Clientes<span>Fieles</span>
+  </a>
 
-    <div class="auth-form-container">
-      <div class="auth-form-box">
-        <h1>Bienvenido de vuelta</h1>
-        <p class="auth-subtitle">Ingresa a tu cuenta para ver tus puntos y recompensas</p>
+  <div class="auth-left-content">
+    <h2 class="auth-left-title">
+      Tu programa de<br>lealtad <span>digital</span><br>en Sucre
+    </h2>
+    <p class="auth-left-desc">
+      Conecta con los mejores negocios de la ciudad y convierte cada compra en una recompensa.
+    </p>
 
-        <div class="tipo-tabs">
-          <button class="tipo-tab active" onclick="cambiarTipo('cliente', this)">Soy Cliente</button>
-          <button class="tipo-tab" onclick="cambiarTipo('negocio', this)">Soy Negocio</button>
+    <div class="left-features">
+      <div class="left-feature">
+        <div class="left-feature-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
         </div>
-
-        <div id="mensajeError" class="auth-message auth-message--error" style="display:none;"></div>
-        <div id="mensajeExito" class="auth-message auth-message--success" style="display:none;"></div>
-
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            placeholder="tucorreo@email.com"
-            autocomplete="email"
-          >
+        <div class="left-feature-text">
+          <strong>Acumula puntos al instante</strong>
+          <span>Cada compra cuenta desde el primer dia</span>
         </div>
-
-        <div class="form-group">
-          <label for="password">
-            Contrasena
-            <a href="#" class="label-link">Olvide mi contrasena</a>
-          </label>
-          <div class="input-password">
-            <input
-              type="password"
-              id="password"
-              placeholder="Tu contrasena"
-              autocomplete="current-password"
-            >
-            <button type="button" class="toggle-password" onclick="togglePassword('password', this)">ver</button>
-          </div>
+      </div>
+      <div class="left-feature">
+        <div class="left-feature-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
         </div>
-
-        <button class="btn-auth" onclick="iniciarSesion()" id="btnLogin">
-          Ingresar
-        </button>
-
-        <p class="auth-footer-text">
-          No tienes cuenta?
-          <a href="/registro.html">Registrate gratis</a>
-        </p>
+        <div class="left-feature-text">
+          <strong>Canjea recompensas reales</strong>
+          <span>Descuentos, productos gratis y mas</span>
+        </div>
+      </div>
+      <div class="left-feature">
+        <div class="left-feature-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="left-feature-text">
+          <strong>100% seguro y gratuito</strong>
+          <span>Sin tarjetas de credito, sin costos ocultos</span>
+        </div>
       </div>
     </div>
   </div>
 
-  <script src="/js/auth.js"></script>
+  <div class="auth-left-footer">
+    &copy; 2026 ClientesFieles · Sucre, Bolivia
+  </div>
+</div>
+
+<!-- RIGHT FORM -->
+<div class="auth-right">
+  <div class="auth-form-box">
+
+    <div class="form-header">
+      <h1 class="form-header-title">Bienvenido de nuevo</h1>
+      <p class="form-header-sub">
+        Sin cuenta aun? <a href="registro.html">Registrate gratis</a>
+      </p>
+    </div>
+
+    <!-- Tipo de cuenta -->
+    <div class="type-tabs">
+      <button class="type-tab active" id="tabCliente" onclick="setTipo('cliente')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Soy cliente
+      </button>
+      <button class="type-tab" id="tabNegocio" onclick="setTipo('negocio')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+        Soy negocio
+      </button>
+    </div>
+
+    <!-- Alerta -->
+    <div class="alert" id="alertBox" style="margin-bottom:14px;"></div>
+
+    <!-- Formulario -->
+    <div class="form-fields">
+      <div class="form-group">
+        <label class="form-label" for="email">Correo electronico</label>
+        <div class="input-with-icon">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <input class="form-input" type="email" id="email" placeholder="tu@email.com" autocomplete="email"/>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="password">Contrasena</label>
+        <div class="input-with-icon">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <input class="form-input" type="password" id="password" placeholder="Tu contrasena" autocomplete="current-password"/>
+          <button class="eye-btn" type="button" onclick="togglePassword()">
+            <svg id="eyeIcon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <a href="#" class="forgot-link" onclick="return false">Olvide mi contrasena</a>
+      </div>
+
+      <button class="btn btn-primary btn-full btn-lg" id="loginBtn" onclick="handleLogin()">
+        Iniciar sesion
+      </button>
+
+      <div class="divider-or"><span>o continua como</span></div>
+
+      <p class="register-link">
+        Nuevo en ClientesFieles? <a href="registro.html">Crear cuenta gratis</a>
+      </p>
+
+      <p class="register-link" style="margin-top:0;">
+        Registrar un negocio? <a href="registro.html#negocio">Registrar negocio</a>
+      </p>
+    </div>
+
+  </div>
+</div>
+
+<script>
+let tipoActual = 'cliente';
+
+function setTipo(tipo) {
+  tipoActual = tipo;
+  document.getElementById('tabCliente').classList.toggle('active', tipo === 'cliente');
+  document.getElementById('tabNegocio').classList.toggle('active', tipo === 'negocio');
+  hideAlert();
+}
+
+function togglePassword() {
+  const input = document.getElementById('password');
+  const icon  = document.getElementById('eyeIcon');
+  if (input.type === 'password') {
+    input.type = 'text';
+    icon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>';
+  } else {
+    input.type = 'password';
+    icon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+  }
+}
+
+function showAlert(msg, type) {
+  const box = document.getElementById('alertBox');
+  box.className = 'alert alert-' + type;
+  box.innerHTML = (type === 'error'
+    ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>'
+    : '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>'
+  ) + msg;
+  box.style.display = 'flex';
+}
+
+function hideAlert() {
+  document.getElementById('alertBox').style.display = 'none';
+}
+
+async function handleLogin() {
+  const email    = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
+  const btn      = document.getElementById('loginBtn');
+
+  hideAlert();
+
+  if (!email || !password) {
+    showAlert('Completa todos los campos.', 'error');
+    return;
+  }
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Verificando...';
+
+  try {
+    const res  = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password, tipo: tipoActual })
+    });
+    const data = await res.json();
+
+    if (data.success) {
+      localStorage.setItem('cf_token', data.token);
+      localStorage.setItem('cf_tipo',  data.tipo);
+      localStorage.setItem('cf_user',  JSON.stringify(data.usuario));
+      showAlert('Sesion iniciada. Redirigiendo...', 'success');
+      setTimeout(() => {
+        window.location.href = data.tipo === 'cliente' ? 'panel-cliente.html' : 'panel-negocio.html';
+      }, 800);
+    } else {
+      showAlert(data.message || 'Error al iniciar sesion.', 'error');
+    }
+  } catch (e) {
+    showAlert('Error de conexion. Verifica tu internet.', 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = 'Iniciar sesion';
+  }
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter') handleLogin();
+});
+
+// Si ya hay sesion activa, redirigir
+const token = localStorage.getItem('cf_token');
+const tipo  = localStorage.getItem('cf_tipo');
+if (token && tipo) {
+  window.location.href = tipo === 'cliente' ? 'panel-cliente.html' : 'panel-negocio.html';
+}
+</script>
 </body>
 </html>

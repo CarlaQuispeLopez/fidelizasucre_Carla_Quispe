@@ -1,104 +1,685 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mi Panel - FidelizaSucre</title>
-  <meta name="robots" content="noindex">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/main.css">
-  <link rel="stylesheet" href="/css/panel.css">
-</head>
-<body class="panel-body">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mi Panel — ClientesFieles</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/main.css"/>
+  <style>
+    html, body { height: 100%; overflow: hidden; display: flex; flex-direction: column; }
 
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-      <a href="/" class="nav-logo">
-        <span class="logo-icon">F</span>
-        <span class="logo-text">Fideliza<strong>Sucre</strong></span>
-      </a>
+    /* ===== TOPBAR ===== */
+    .topbar {
+      background: var(--purple);
+      height: 52px;
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      gap: 16px;
+      flex-shrink: 0;
+    }
+    .topbar-logo {
+      font-family: var(--font-ui); font-weight: 900; font-size: 18px;
+      color: white; text-decoration: none; display: flex; align-items: center; gap: 7px;
+    }
+    .topbar-logo span { font-weight: 500; opacity: 0.8; }
+    .topbar-spacer { flex: 1; }
+    .topbar-user {
+      display: flex; align-items: center; gap: 8px;
+      color: rgba(255,255,255,0.9); font-size: 13px;
+    }
+    .topbar-avatar {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-ui); font-weight: 900; font-size: 13px; color: white;
+    }
+    .topbar-badge {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.25);
+      color: rgba(255,255,255,0.9);
+      font-family: var(--font-ui); font-weight: 700; font-size: 11px;
+      padding: 2px 8px; border-radius: 20px;
+    }
+    .topbar-btn {
+      background: none; border: none; color: rgba(255,255,255,0.7);
+      cursor: pointer; padding: 5px; border-radius: 6px;
+      display: flex; align-items: center; transition: all 0.15s;
+    }
+    .topbar-btn:hover { background: rgba(255,255,255,0.15); color: white; }
+
+    /* ===== LAYOUT ===== */
+    .layout {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+    }
+
+    /* ===== SIDEBAR ===== */
+    .sidebar {
+      width: 220px;
+      flex-shrink: 0;
+      background: white;
+      border-right: 1px solid var(--gray-200);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .sidebar-section { padding: 14px 12px 6px; }
+    .sidebar-label {
+      font-family: var(--font-ui); font-weight: 800; font-size: 10px;
+      text-transform: uppercase; letter-spacing: 0.6px; color: var(--gray-400);
+      padding: 0 8px; margin-bottom: 6px;
+    }
+
+    .nav-item {
+      display: flex; align-items: center; gap: 9px;
+      padding: 8px 10px;
+      border-radius: var(--radius);
+      font-family: var(--font-ui); font-weight: 700; font-size: 13px;
+      color: var(--gray-600);
+      cursor: pointer;
+      transition: all 0.12s;
+      border: none; background: none; width: 100%; text-align: left;
+    }
+    .nav-item svg { color: var(--gray-400); flex-shrink: 0; transition: color 0.12s; }
+    .nav-item:hover { background: var(--gray-100); color: var(--gray-800); }
+    .nav-item:hover svg { color: var(--gray-600); }
+    .nav-item.active { background: var(--purple-bg); color: var(--purple); }
+    .nav-item.active svg { color: var(--purple); }
+
+    .sidebar-divider { height: 1px; background: var(--gray-100); margin: 8px 12px; }
+
+    /* Tarjeta de puntos en sidebar */
+    .points-card {
+      margin: 12px;
+      background: linear-gradient(135deg, var(--purple-dark), var(--purple-mid));
+      border-radius: 12px;
+      padding: 14px;
+      color: white;
+    }
+    .points-label { font-size: 11px; opacity: 0.75; margin-bottom: 3px; }
+    .points-value {
+      font-family: var(--font-ui); font-weight: 900; font-size: 28px;
+      line-height: 1; margin-bottom: 4px;
+    }
+    .points-sub { font-size: 10.5px; opacity: 0.7; }
+    .points-code {
+      margin-top: 10px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 7px;
+      padding: 7px 10px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .points-code-label { font-size: 10px; opacity: 0.7; }
+    .points-code-value {
+      font-family: var(--font-ui); font-weight: 900; font-size: 13px; letter-spacing: 1px;
+    }
+
+    /* ===== CONTENT ===== */
+    .content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: var(--gray-50);
+    }
+
+    .content-header {
+      background: white;
+      border-bottom: 1px solid var(--gray-200);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .content-title {
+      font-family: var(--font-ui); font-weight: 900; font-size: 18px;
+      color: var(--gray-900); letter-spacing: -0.3px;
+    }
+    .content-subtitle { font-size: 12px; color: var(--gray-500); margin-top: 1px; }
+
+    .content-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px 24px;
+    }
+
+    /* ===== SECCIONES ===== */
+    .section { display: none; }
+    .section.active { display: flex; flex-direction: column; gap: 16px; }
+
+    /* Resumen */
+    .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+
+    /* Recompensas */
+    .rewards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 12px;
+    }
+    .reward-card {
+      background: white;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: box-shadow 0.15s;
+    }
+    .reward-card:hover { box-shadow: var(--shadow-md); }
+    .reward-header { display: flex; align-items: flex-start; justify-content: space-between; }
+    .reward-name {
+      font-family: var(--font-ui); font-weight: 800; font-size: 14px;
+      color: var(--gray-800); line-height: 1.3;
+    }
+    .reward-desc { font-size: 12px; color: var(--gray-500); }
+    .reward-pts {
+      font-family: var(--font-ui); font-weight: 900; font-size: 18px;
+      color: var(--purple);
+    }
+    .reward-pts span { font-size: 11px; font-weight: 700; color: var(--gray-500); }
+    .reward-negocio { font-size: 11.5px; color: var(--gray-500); display: flex; align-items: center; gap: 5px; }
+
+    /* Historial */
+    .historial-list { display: flex; flex-direction: column; gap: 1px; }
+    .historial-item {
+      background: white;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      padding: 11px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .historial-icon {
+      width: 34px; height: 34px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .historial-info { flex: 1; }
+    .historial-desc { font-size: 13px; font-weight: 600; color: var(--gray-800); }
+    .historial-neg  { font-size: 11px; color: var(--gray-500); margin-top: 1px; }
+    .historial-date { font-size: 11px; color: var(--gray-400); }
+    .historial-pts {
+      font-family: var(--font-ui); font-weight: 900; font-size: 15px;
+      text-align: right;
+    }
+
+    .empty-state {
+      text-align: center; padding: 40px 20px;
+      color: var(--gray-500);
+    }
+    .empty-state svg { color: var(--gray-300); margin-bottom: 12px; }
+    .empty-title { font-family: var(--font-ui); font-weight: 800; font-size: 15px; color: var(--gray-600); margin-bottom: 5px; }
+
+    /* Perfil */
+    .perfil-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .info-row { display: flex; flex-direction: column; gap: 3px; }
+    .info-label { font-size: 11px; font-family: var(--font-ui); font-weight: 700; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.4px; }
+    .info-value { font-size: 14px; color: var(--gray-800); font-weight: 600; }
+
+    /* Canjear modal */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+      display: none; align-items: center; justify-content: center;
+      z-index: 1000; padding: 20px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: white; border-radius: 16px; width: 100%; max-width: 380px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    }
+    .modal-header {
+      padding: 18px 20px 14px;
+      border-bottom: 1px solid var(--gray-100);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .modal-title { font-family: var(--font-ui); font-weight: 900; font-size: 16px; color: var(--gray-900); }
+    .modal-close { background: none; border: none; cursor: pointer; color: var(--gray-400); padding: 4px; }
+    .modal-close:hover { color: var(--gray-700); }
+    .modal-body { padding: 18px 20px; }
+    .modal-footer { padding: 14px 20px; border-top: 1px solid var(--gray-100); display: flex; gap: 8px; }
+  </style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <a href="index.html" class="topbar-logo">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round">
+      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+    </svg>
+    Clientes<span>Fieles</span>
+  </a>
+  <div class="topbar-spacer"></div>
+  <span class="topbar-badge">Cliente</span>
+  <div class="topbar-user">
+    <div class="topbar-avatar" id="topbarInitial">?</div>
+    <span id="topbarName">Cargando...</span>
+  </div>
+  <button class="topbar-btn" title="Cerrar sesion" onclick="cerrarSesion()">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+  </button>
+</header>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <!-- Tarjeta de puntos -->
+    <div class="points-card">
+      <div class="points-label">Mis puntos</div>
+      <div class="points-value" id="sidebarPuntos">—</div>
+      <div class="points-sub">puntos acumulados</div>
+      <div class="points-code">
+        <div>
+          <div class="points-code-label">Mi codigo</div>
+          <div class="points-code-value" id="sidebarCodigo">—</div>
+        </div>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.7"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+      </div>
     </div>
-    <nav class="sidebar-nav">
-      <a href="#" class="sidebar-link active" onclick="mostrarSeccionCliente('miperfil', this)">
-        <span class="sidebar-icon">perfil</span>
-        Mi Perfil
-      </a>
-      <a href="#" class="sidebar-link" onclick="mostrarSeccionCliente('misrecompensas', this)">
-        <span class="sidebar-icon">premio</span>
-        Canjear
-      </a>
-      <a href="#" class="sidebar-link" onclick="mostrarSeccionCliente('historial', this)">
-        <span class="sidebar-icon">historial</span>
+
+    <div class="sidebar-divider"></div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Menu</div>
+      <button class="nav-item active" onclick="showSection('resumen')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        Resumen
+      </button>
+      <button class="nav-item" onclick="showSection('recompensas')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+        Recompensas
+      </button>
+      <button class="nav-item" onclick="showSection('historial')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="12 8 12 12 14 14"/><path d="M3.05 11a9 9 0 1 1 .5 4m-.5 5v-5h5"/></svg>
         Historial
-      </a>
-    </nav>
-    <div class="sidebar-footer">
-      <button class="btn-cerrar-sesion" onclick="cerrarSesion()">Cerrar sesion</button>
+      </button>
+      <button class="nav-item" onclick="showSection('perfil')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Mi perfil
+      </button>
+    </div>
+
+    <div style="flex:1;"></div>
+    <div class="sidebar-divider"></div>
+    <div style="padding:10px 12px;">
+      <button class="nav-item" onclick="cerrarSesion()" style="color:var(--red);">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="color:var(--red)"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Cerrar sesion
+      </button>
     </div>
   </aside>
 
-  <main class="panel-main">
-    <header class="panel-header">
-      <h1 class="panel-title" id="panelTitulo">Mi Perfil</h1>
-      <div class="panel-header-right">
-        <span class="negocio-nombre" id="clienteNombre">Cargando...</span>
+  <!-- CONTENT -->
+  <main class="content">
+    <div class="content-header">
+      <div>
+        <div class="content-title" id="pageTitle">Resumen</div>
+        <div class="content-subtitle" id="pageSubtitle">Tu actividad reciente</div>
       </div>
-    </header>
+    </div>
 
-    <!-- PERFIL -->
-    <section class="panel-section active" id="seccion-miperfil">
-      <div class="tarjeta-puntos">
-        <div class="tarjeta-label">Total de puntos</div>
-        <div class="tarjeta-puntos-valor" id="misPuntos">0</div>
-        <div class="tarjeta-nombre" id="miNombre">Mi Nombre</div>
-        <div class="tarjeta-codigo" id="miCodigo">CLI-000000</div>
-      </div>
-      <div class="panel-card">
-        <h3>Como acumular puntos</h3>
-        <div class="instrucciones-cliente">
-          <div class="instruccion-paso">
-            <div class="instruccion-num">1</div>
-            <p>Ve a cualquier negocio participante en Sucre</p>
-          </div>
-          <div class="instruccion-paso">
-            <div class="instruccion-num">2</div>
-            <p>Da tu codigo de cliente al cajero o deja escanear tu pantalla</p>
-          </div>
-          <div class="instruccion-paso">
-            <div class="instruccion-num">3</div>
-            <p>Los puntos se agregan automaticamente a tu cuenta</p>
-          </div>
-        </div>
-        <div class="tu-codigo-grande">
-          Tu codigo: <strong id="codigoGrande">CLI-000000</strong>
-        </div>
-      </div>
-    </section>
+    <div class="content-body">
 
-    <!-- CANJEAR -->
-    <section class="panel-section" id="seccion-misrecompensas">
-      <div class="panel-card">
-        <h3>Recompensas disponibles</h3>
-        <p class="card-desc">Canjea tus puntos por estos premios en los negocios participantes</p>
-        <div id="listaRecompensasCliente">
-          <div class="loading-text">Cargando recompensas...</div>
+      <!-- RESUMEN -->
+      <div class="section active" id="secResumen">
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-icon stat-icon-purple">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <div>
+              <div class="stat-value" id="statPuntos">—</div>
+              <div class="stat-label">Puntos totales</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon stat-icon-green">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/></svg>
+            </div>
+            <div>
+              <div class="stat-value" id="statRecompensas">—</div>
+              <div class="stat-label">Recompensas disponibles</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon stat-icon-amber">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="12 8 12 12 14 14"/><path d="M3.05 11a9 9 0 1 1 .5 4"/></svg>
+            </div>
+            <div>
+              <div class="stat-value" id="statMovimientos">—</div>
+              <div class="stat-label">Movimientos</div>
+            </div>
+          </div>
         </div>
-      </div>
-    </section>
 
-    <!-- HISTORIAL -->
-    <section class="panel-section" id="seccion-historial">
-      <div class="panel-card">
-        <h3>Historial de puntos</h3>
-        <div id="historialMovimientos">
-          <div class="loading-text">Cargando historial...</div>
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="12 8 12 12 14 14"/><path d="M3.05 11a9 9 0 1 1 .5 4m-.5 5v-5h5"/></svg>
+              Ultimos movimientos
+            </div>
+            <button class="btn btn-ghost btn-sm" onclick="showSection('historial')">Ver todo</button>
+          </div>
+          <div style="overflow:auto;max-height:280px;">
+            <table class="table" id="resumenHistorial">
+              <thead><tr><th>Descripcion</th><th>Negocio</th><th>Fecha</th><th>Puntos</th></tr></thead>
+              <tbody id="resumenHistorialBody">
+                <tr><td colspan="4" style="text-align:center;padding:20px;color:var(--gray-400)">Cargando...</td></tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
-    </section>
+
+      <!-- RECOMPENSAS -->
+      <div class="section" id="secRecompensas">
+        <div class="rewards-grid" id="rewardsGrid">
+          <div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--gray-400)">Cargando recompensas...</div>
+        </div>
+      </div>
+
+      <!-- HISTORIAL -->
+      <div class="section" id="secHistorial">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="12 8 12 12 14 14"/><path d="M3.05 11a9 9 0 1 1 .5 4m-.5 5v-5h5"/></svg>
+              Historial completo de puntos
+            </div>
+          </div>
+          <div style="overflow:auto;">
+            <table class="table" id="fullHistorial">
+              <thead><tr><th>Descripcion</th><th>Negocio</th><th>Tipo</th><th>Fecha</th><th style="text-align:right">Puntos</th></tr></thead>
+              <tbody id="fullHistorialBody">
+                <tr><td colspan="5" style="text-align:center;padding:20px;color:var(--gray-400)">Cargando...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- PERFIL -->
+      <div class="section" id="secPerfil">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              Datos de mi cuenta
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="perfil-grid" id="perfilGrid">
+              <div style="text-align:center;padding:20px;color:var(--gray-400);grid-column:1/-1">Cargando...</div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              Seguridad
+            </div>
+          </div>
+          <div class="card-body" style="color:var(--gray-500);font-size:13px;">
+            Para cambiar tu contrasena o datos personales, contacta al soporte de ClientesFieles.
+          </div>
+        </div>
+      </div>
+
+    </div>
   </main>
+</div>
 
-  <script src="/js/panel.js"></script>
+<!-- MODAL CANJEAR -->
+<div class="modal-overlay" id="modalCanjear">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modalRewardName">Canjear recompensa</div>
+      <button class="modal-close" onclick="cerrarModal()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="alert alert-info" id="modalInfo" style="margin-bottom:14px;">Cargando...</div>
+      <p style="font-size:13px;color:var(--gray-600);">
+        Esta accion descontara los puntos requeridos de tu cuenta. El descuento se aplica al presentar el comprobante en el negocio.
+      </p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline btn-full" onclick="cerrarModal()">Cancelar</button>
+      <button class="btn btn-primary btn-full" id="btnConfirmarCanje" onclick="confirmarCanje()">Confirmar canje</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const API = '/api';
+let token = localStorage.getItem('cf_token');
+let tipo  = localStorage.getItem('cf_tipo');
+let userData = {};
+let pendingRewardId = null;
+let recompensasData = [];
+
+if (!token || tipo !== 'cliente') {
+  window.location.href = 'login.html';
+}
+
+const headers = { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token };
+
+async function init() {
+  try {
+    const [perfilRes, recompensasRes, historialRes] = await Promise.all([
+      fetch(API + '/clients/perfil', { headers }),
+      fetch(API + '/clients/recompensas-disponibles', { headers }),
+      fetch(API + '/points/historial', { headers })
+    ]);
+
+    const perfilData      = await perfilRes.json();
+    const recompensasData_ = await recompensasRes.json();
+    const historialData   = await historialRes.json();
+
+    if (perfilData.success) {
+      userData = perfilData.cliente;
+      renderPerfil(userData);
+      updateSidebar(userData);
+    } else if (perfilRes.status === 401) {
+      cerrarSesion();
+    }
+
+    if (recompensasData_.success) {
+      recompensasData = recompensasData_.recompensas;
+      renderRecompensas(recompensasData);
+      document.getElementById('statRecompensas').textContent = recompensasData.length;
+    }
+
+    if (historialData.success) {
+      renderHistorial(historialData.historial);
+      document.getElementById('statMovimientos').textContent = historialData.historial.length;
+    }
+
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+function updateSidebar(c) {
+  document.getElementById('topbarInitial').textContent = c.nombre[0];
+  document.getElementById('topbarName').textContent = c.nombre + ' ' + c.apellido;
+  document.getElementById('sidebarPuntos').textContent = c.puntos_totales ?? 0;
+  document.getElementById('sidebarCodigo').textContent = c.codigo_cliente;
+  document.getElementById('statPuntos').textContent = c.puntos_totales ?? 0;
+}
+
+function renderPerfil(c) {
+  document.getElementById('perfilGrid').innerHTML = `
+    <div class="info-row"><div class="info-label">Nombre completo</div><div class="info-value">${c.nombre} ${c.apellido}</div></div>
+    <div class="info-row"><div class="info-label">Correo electronico</div><div class="info-value">${c.email}</div></div>
+    <div class="info-row"><div class="info-label">Telefono</div><div class="info-value">${c.telefono || '—'}</div></div>
+    <div class="info-row"><div class="info-label">Codigo de cliente</div><div class="info-value" style="font-family:var(--font-ui);font-weight:900;color:var(--purple);letter-spacing:1px">${c.codigo_cliente}</div></div>
+    <div class="info-row"><div class="info-label">Puntos totales</div><div class="info-value" style="font-family:var(--font-ui);font-weight:900;font-size:18px;color:var(--purple)">${c.puntos_totales ?? 0}</div></div>
+    <div class="info-row"><div class="info-label">Miembro desde</div><div class="info-value">${new Date(c.fecha_registro).toLocaleDateString('es-BO', {year:'numeric',month:'long',day:'numeric'})}</div></div>
+  `;
+}
+
+function renderRecompensas(list) {
+  const grid = document.getElementById('rewardsGrid');
+  if (!list.length) {
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--gray-400)"><p>Aun no hay recompensas disponibles.</p></div>';
+    return;
+  }
+  const puntos = userData.puntos_totales ?? 0;
+  grid.innerHTML = list.map(r => {
+    const canCanjear = puntos >= r.puntos_requeridos;
+    return `
+      <div class="reward-card">
+        <div class="reward-header">
+          <span class="badge ${canCanjear ? 'badge-green' : 'badge-gray'}">${canCanjear ? 'Disponible' : 'Sin puntos'}</span>
+        </div>
+        <div>
+          <div class="reward-name">${r.nombre}</div>
+          <div class="reward-desc">${r.descripcion || ''}</div>
+        </div>
+        <div class="reward-negocio">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+          ${r.nombre_negocio}
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px;">
+          <div class="reward-pts">${r.puntos_requeridos} <span>pts</span></div>
+          <button class="btn btn-sm ${canCanjear ? 'btn-primary' : 'btn-outline'}" ${canCanjear ? '' : 'disabled'} onclick="abrirModal(${r.id},'${r.nombre.replace(/'/g,"\\'")}',${r.puntos_requeridos})">
+            ${canCanjear ? 'Canjear' : 'Faltan ' + (r.puntos_requeridos - puntos) + ' pts'}
+          </button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderHistorial(list) {
+  const tbody = document.getElementById('fullHistorialBody');
+  const tbody2 = document.getElementById('resumenHistorialBody');
+
+  if (!list.length) {
+    tbody.innerHTML  = '<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--gray-400)">No hay movimientos aun.</td></tr>';
+    tbody2.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:20px;color:var(--gray-400)">No hay movimientos aun.</td></tr>';
+    return;
+  }
+
+  const rows = list.map(t => {
+    const esSuma = t.tipo === 'suma';
+    const fecha  = new Date(t.fecha).toLocaleDateString('es-BO', {day:'2-digit', month:'short', year:'numeric'});
+    return {
+      full: `<tr>
+        <td>${t.descripcion || '—'}</td>
+        <td>${t.nombre_negocio || '—'}</td>
+        <td><span class="badge ${esSuma ? 'badge-green' : 'badge-purple'}">${esSuma ? 'Suma' : 'Canje'}</span></td>
+        <td style="color:var(--gray-400)">${fecha}</td>
+        <td style="text-align:right;font-family:var(--font-ui);font-weight:900;color:${esSuma ? 'var(--green)' : 'var(--red)'}">
+          ${esSuma ? '+' : '-'}${t.puntos}
+        </td>
+      </tr>`,
+      short: `<tr>
+        <td>${t.descripcion || '—'}</td>
+        <td>${t.nombre_negocio || '—'}</td>
+        <td style="color:var(--gray-400)">${fecha}</td>
+        <td style="font-family:var(--font-ui);font-weight:900;color:${esSuma ? 'var(--green)' : 'var(--red)'}">
+          ${esSuma ? '+' : '-'}${t.puntos}
+        </td>
+      </tr>`
+    };
+  });
+
+  tbody.innerHTML  = rows.map(r => r.full).join('');
+  tbody2.innerHTML = rows.slice(0, 5).map(r => r.short).join('');
+}
+
+function abrirModal(id, nombre, pts) {
+  pendingRewardId = id;
+  document.getElementById('modalRewardName').textContent = nombre;
+  document.getElementById('modalInfo').className = 'alert alert-info';
+  document.getElementById('modalInfo').innerHTML =
+    `Se descontaran <strong>${pts} puntos</strong> de tu cuenta.<br>Puntos actuales: <strong>${userData.puntos_totales ?? 0}</strong>`;
+  document.getElementById('btnConfirmarCanje').disabled = false;
+  document.getElementById('btnConfirmarCanje').innerHTML = 'Confirmar canje';
+  document.getElementById('modalCanjear').classList.add('open');
+}
+
+function cerrarModal() {
+  document.getElementById('modalCanjear').classList.remove('open');
+  pendingRewardId = null;
+}
+
+async function confirmarCanje() {
+  if (!pendingRewardId) return;
+  const btn = document.getElementById('btnConfirmarCanje');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Canjeando...';
+
+  try {
+    const res  = await fetch(API + '/points/canjear', {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({ recompensa_id: pendingRewardId })
+    });
+    const data = await res.json();
+
+    if (data.success) {
+      const info = document.getElementById('modalInfo');
+      info.className = 'alert alert-success';
+      info.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>' + data.message;
+      userData.puntos_totales = data.puntos_restantes;
+      updateSidebar(userData);
+      renderRecompensas(recompensasData);
+      setTimeout(cerrarModal, 1800);
+      init(); // refresh
+    } else {
+      const info = document.getElementById('modalInfo');
+      info.className = 'alert alert-error';
+      info.textContent = data.message;
+      btn.disabled = false;
+      btn.innerHTML = 'Confirmar canje';
+    }
+  } catch (e) {
+    btn.disabled = false;
+    btn.innerHTML = 'Confirmar canje';
+  }
+}
+
+const titles = {
+  resumen:     ['Resumen', 'Tu actividad reciente'],
+  recompensas: ['Recompensas', 'Canjeables con tus puntos'],
+  historial:   ['Historial', 'Todos tus movimientos de puntos'],
+  perfil:      ['Mi perfil', 'Datos de tu cuenta ClientesFieles']
+};
+
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('sec' + id.charAt(0).toUpperCase() + id.slice(1)).classList.add('active');
+  const t = titles[id];
+  document.getElementById('pageTitle').textContent    = t[0];
+  document.getElementById('pageSubtitle').textContent = t[1];
+  const navBtns = document.querySelectorAll('.nav-item');
+  const map = ['resumen','recompensas','historial','perfil'];
+  navBtns.forEach((btn, i) => { if (map[i] === id) btn.classList.add('active'); });
+}
+
+function cerrarSesion() {
+  localStorage.removeItem('cf_token');
+  localStorage.removeItem('cf_tipo');
+  localStorage.removeItem('cf_user');
+  window.location.href = 'login.html';
+}
+
+init();
+</script>
 </body>
 </html>
